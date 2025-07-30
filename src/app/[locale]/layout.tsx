@@ -1,5 +1,9 @@
 /*
- *  Layout spécifique à chaque locales
+ *  Locale layout : 
+- Pré-fénère les routes pour chaque locale
+- Produit un SEO multilingue (titres, descriptions, alternates, Open Graph)
+- Déclare UNE SEULE FOIS <html lang={locale}> et <body>
+- Wrappe les enfants dans NextIntlClientProvider
  */
 
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
@@ -12,7 +16,7 @@ import type { Metadata } from 'next';
 //*---------------- Types des props de notre layout enfant :
 interface LocaleLayoutProps {
   children: ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }
 
 //*---------------- 1) Pré-génère les routes locales statiques (/fr,/en) :
@@ -24,13 +28,11 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = params;
-
+  const { locale } = await params;
   // Charge le namespace "metadata" dans le bon fichier JSON
   const t = await getTranslations({ locale, namespace: 'metadata' });
-
   // Récupère le domaine depuis l'env ou fallback en dev :
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'; //! REMPLACER PAR LE NOM DE DOMAINE
 
@@ -64,7 +66,7 @@ export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProps) {
-  const { locale } = params;
+  const { locale } = await params;
 
   // Si la locale n'est pas dans notre config -> page 404
   if (!hasLocale(routing.locales, locale)) {
@@ -75,8 +77,6 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    // Le fichier parent app/layout.tsx définira <html> et <body>,
-    // mais on peut redéclarer <html lang> ici pour injecter l'attribut lang
     <html lang={locale}>
       <body>
         {/* Fournit le contexte de traductions à tous les enfants */}
