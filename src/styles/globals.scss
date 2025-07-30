@@ -1,3 +1,3 @@
-@import './reset';
-@import './variables';
-@import './mixins';
+@use './reset' as *; // importe toutes les règles de reset
+@use './variables' as *; // importe toutes les variables en top-level
+@use './mixins' as *; // importe toutes les mixins en top-level

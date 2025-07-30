@@ -1,5 +1,9 @@
-@import '@/styles/variables';
-@import '@/styles/mixins';
+@use '@/styles/variables' as vars;
+@use '@/styles/mixins' as mixins;
+
+// si tu veux utiliser un mixin ou une variable :
+// @include mixins.center-content();
+// color: vars.$text-color;
 
 .h1 {
   height: 100vh;
