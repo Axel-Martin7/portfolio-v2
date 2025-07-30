@@ -2,7 +2,8 @@
   "pages": {
     "home": {
       "introduction": {
-        "main-title": "Bienvenue sur mon Portfolio V2"
+        "main-title": "Bienvenue sur mon Portfolio V2",
+        "about": "A propos"
       }
     }
   }
