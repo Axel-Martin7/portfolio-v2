@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "defaultTitle": "Mon Portfolio V2",
+    "defaultDescription": "Un portfolio multilingue construit avec Next.js App Router",
+    "ogTitle": "Découvrez Mon Portfolio",
+    "ogDescription": "Portfolio personnel construit avec Next.js",
+    "siteName": "Mon Portfolio"
+  },
+
   "pages": {
     "home": {
       "introduction": {
