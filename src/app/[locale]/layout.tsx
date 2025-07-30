@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 // import { Geist, Geist_Mono } from 'next/font/google';
 
 import '@/styles/globals.scss';
+import { routing } from '@/i18n/routing';
+import { hasLocale } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { setRequestLocale } from 'next-intl/server';
 
 // const geistSans = Geist({
 //   variable: '--font-geist-sans',
@@ -12,6 +16,26 @@ import '@/styles/globals.scss';
 //   variable: '--font-geist-mono',
 //   subsets: ['latin'],
 // });
+
+/*-------------------------------------------------*
+// * Génère les chemins statiques pour chaque locale
+*-------------------------------------------------*/
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
+  const { locale } = params;
+  if (!hasLocale(routing.locales, locale)) notFound(); // si locale invalide, page 404.
+
+  setRequestLocale(locale); // Permet le rendu statique avec la locale.
+}
 
 export const metadata: Metadata = {
   title: 'Create Next App',
