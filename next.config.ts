@@ -7,7 +7,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig: NextConfig = {
   // Otionnel : pour utiliser aussi le support i18n natif de Next.js :
   i18n: {
-    locales: ['fr', 'en', 'de', 'es'],
+    locales: ['fr', 'en'],
     defaultLocale: 'fr',
   },
 };
