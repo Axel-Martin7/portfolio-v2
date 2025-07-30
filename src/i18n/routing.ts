@@ -1,3 +1,5 @@
+// Partage la liste des locales et la locale par défaut.
+
 import { defineRouting } from 'next-intl/routing';
 
 /*-------------------------------------------------*
