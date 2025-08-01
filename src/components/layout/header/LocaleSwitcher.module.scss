@@ -1,0 +1,50 @@
+/**
+ * LocaleSwitcher.module.scss
+ *
+ * Styles du sélecteur de langue :
+ * - .switcher : position relative pour dropdown
+ * - .summary : style du bouton principal
+ * - .list : dropdown absolu sous summary
+ * - .link : style des items
+ */
+
+.switcher {
+  position: relative;
+  display: inline-block;
+}
+.switcher summary {
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  background: #eee;
+  border-radius: 4px;
+  list-style: none;
+}
+.switcher summary::-webkit-details-marker {
+  display: none;
+}
+.switcher .list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin: 0.25rem 0 0;
+  padding: 0.5rem 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  min-width: 4rem;
+}
+.switcher .link {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  background: none;
+  border: none;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+.switcher .link:hover {
+  background: #f0f0f0;
+}

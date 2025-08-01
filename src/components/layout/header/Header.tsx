@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './Header.module.scss';
-import LocaleSwitcher from './LocaleSwitcher';
+
 import { Link } from '@/i18n/navigation';
+import LocaleSwitcher from './LocaleSwitcher';
 
 interface HeaderProps {
   locale: string;
