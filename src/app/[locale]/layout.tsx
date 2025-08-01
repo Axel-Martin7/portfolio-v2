@@ -1,9 +1,9 @@
 /*
  *  Locale layout : 
-- Pré-fénère les routes pour chaque locale
-- Produit un SEO multilingue (titres, descriptions, alternates, Open Graph)
-- Déclare UNE SEULE FOIS <html lang={locale}> et <body>
-- Wrappe les enfants dans NextIntlClientProvider
+- Détecte et valide la locale depuis l'URL.
+- Configure next-intl pour la locale courante.
+- Génère des métadonnées SEO adaptées (titres traduits, descriptions, alternate, openGraph) via generateMetadata().
+- Fourni le contexte de traduction à l'application.
  */
 
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
@@ -12,6 +12,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
+import Header from '@/components/layout/header/Header';
 
 //*---------------- Types des props de notre layout enfant :
 interface LocaleLayoutProps {
@@ -19,7 +20,7 @@ interface LocaleLayoutProps {
   params: Promise<{ locale: string }>;
 }
 
-//*---------------- 1) Pré-génère les routes locales statiques (/fr,/en) :
+//*---------------- 1) Pré-génère les routes locales statiques (/fr,/en ...) :
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -31,10 +32,8 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  // Charge le namespace "metadata" dans le bon fichier JSON
-  const t = await getTranslations({ locale, namespace: 'metadata' });
-  // Récupère le domaine depuis l'env ou fallback en dev :
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'; //! REMPLACER PAR LE NOM DE DOMAINE
+  const t = await getTranslations({ locale, namespace: 'metadata' }); // Charge le namespace "metadata" dans le bon fichier JSON
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'; //! REMPLACER PAR LE NOM DE DOMAINE   // Récupère le domaine depuis l'env ou fallback en dev :
 
   return {
     // Titres et descriptions traduits
@@ -66,21 +65,25 @@ export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProps) {
+  // 1) Attendre params
   const { locale } = await params;
 
-  // Si la locale n'est pas dans notre config -> page 404
+  // 2) 404 si locale invalide
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  // Informe next.intl de la locale avant le rendu statique
+  // 3) Configurer next-intl pour cette locale
   setRequestLocale(locale);
 
   return (
+    // Fournit le contexte de traductions à tous les enfants
     <html lang={locale}>
       <body>
-        {/* Fournit le contexte de traductions à tous les enfants */}
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <Header locale={locale} />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
