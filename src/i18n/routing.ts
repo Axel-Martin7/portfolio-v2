@@ -1,12 +1,14 @@
-// Partage la liste des locales et la locale par défaut.
+/**
+ * Centralise la configuration i18n:
+ * - locales disponibles
+ * - locale par défaut
+ * - préfixe d'URL pour la locale par défaut
+ */
 
 import { defineRouting } from 'next-intl/routing';
 
-/*-------------------------------------------------*
-// * Définition des locales et de la locale par défaut :
-// - 'DefineRouting' centralise la config pour middleware et navigation
-*--------------------------------------------------*/
 export const routing = defineRouting({
-  locales: ['fr', 'en'],
+  locales: ['fr', 'en', 'de', 'es'],
   defaultLocale: 'fr',
+  localePrefix: 'as-needed',
 });
