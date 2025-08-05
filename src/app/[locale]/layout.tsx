@@ -1,9 +1,9 @@
 /*
  *  Locale layout : 
-- Détecte et valide la locale depuis l'URL.
-- Configure next-intl pour la locale courante.
-- Génère des métadonnées SEO adaptées (titres traduits, descriptions, alternate, openGraph) via generateMetadata().
-- Fourni le contexte de traduction à l'application.
+- Valide la locale depuis l'URL (404 si invalide)
+- Configure next-intl pour la locale courante
+- Génère les métadonnées SEO (title, description, alternates, openGraph)
+- Fournit le contexte de traduction et rend l'en-tête + contenu de la page
  */
 
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
@@ -20,38 +20,67 @@ interface LocaleLayoutProps {
   params: Promise<{ locale: string }>;
 }
 
-//*---------------- 1) Pré-génère les routes locales statiques (/fr,/en ...) :
+/*-------------------------------------------------*
+//*  generateStaticParams:
+* - Génère statiquement les segments de locale pour le SSG 
+/*-------------------------------------------------*/
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-//*---------------- 2) Génère les metadatas globales pour CHAQUE locale :
+/*-------------------------------------------------*
+//*  generateMetadata:
+* - Génération des Metadata pour chaque locale via App Router
+/*-------------------------------------------------*/
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  //---------------- 1) Récupère la locale :
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'metadata' }); // Charge le namespace "metadata" dans le bon fichier JSON
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'; //! REMPLACER PAR LE NOM DE DOMAINE   // Récupère le domaine depuis l'env ou fallback en dev :
+
+  //---------------- 2) Charge les traductions du namespae "metadata" :
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  //---------------- 3) Base URL (sans slash final) :
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
+  ).replace(/\/$/, '');
+
+  //---------------- 4) Détermine l'URL canonique:
+  // - pour la defaultLocale en mode 'as-needed', on n'ajoute PAS le préfixe
+  const canonicalUrl =
+    locale === routing.defaultLocale && routing.localePrefix === 'as-needed'
+      ? baseUrl
+      : `${baseUrl}/${locale}`;
+
+  //---------------- 5) Construit la map hreflang (languages) :
+  // - defaultLocale -> baseURL ; autres locales -> /locale
+  const languages: Record<string, string> = Object.fromEntries(
+    routing.locales.map((l) => [
+      l,
+      l === routing.defaultLocale && routing.localePrefix === 'as-needed'
+        ? baseUrl
+        : `${baseUrl}/${l}`,
+    ])
+  );
 
   return {
     // Titres et descriptions traduits
     title: t('defaultTitle'),
     description: t('defaultDescription'),
-    // <link rel="alternate"> pour chaque langue (SEO multilingue)
+    // Balises <link rel="canonical"> et <link rel="alternate hreflang">
     alternates: {
-      canonical: `${baseUrl}/${locale}`,
-      languages: Object.fromEntries(
-        routing.locales.map((l) => [l, `${baseUrl}/${l}`])
-      ),
+      canonical: canonicalUrl,
+      languages,
     },
 
     // Configuration Open Graph de base :
     openGraph: {
       title: t('ogTitle'),
       description: t('ogDescription'),
-      url: `${baseUrl}/${locale}`,
+      url: canonicalUrl,
       siteName: t('siteName'),
       type: 'website',
       locale,
@@ -60,7 +89,10 @@ export async function generateMetadata({
   };
 }
 
-//*---------------- 3) Layout imbriqué spécifique à la locale :
+/*-------------------------------------------------*
+//*  LocaleLayout:
+* - Layout principal spécifique à la locale (Server Component)
+/*-------------------------------------------------*/
 export default async function LocaleLayout({
   children,
   params,
@@ -77,18 +109,16 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    // Fournit le contexte de traductions à tous les enfants
-    // <html lang={locale}>
-    //   <body>
-    //     <NextIntlClientProvider>
-    //       <Header locale={locale} />
-    //       {children}
-    //     </NextIntlClientProvider>
-    //   </body>
-    // </html>
-    <NextIntlClientProvider>
-      <Header locale={locale} />
-      {children}
-    </NextIntlClientProvider>
+    // 4) Rend le provider i18n, l'en-tête et le contenu enfant
+    <html lang={locale}>
+      <head />
+      <body>
+        <NextIntlClientProvider>
+          {/* HTML/body are handled by RootLayout */}
+          <Header locale={locale} />
+          {children}
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }
