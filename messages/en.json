@@ -1,18 +1,40 @@
 {
   "metadata": {
-    "defaultTitle": "My Portfolio V2",
-    "defaultDescription": "A multilingual portfolio built with Next.js App Router",
-    "ogTitle": "Explore My Portfolio",
-    "ogDescription": "Personal portfolio built with Next.js",
-    "siteName": "My Portfolio"
+    "defaultTitle": "Mon Portfolio V2",
+    "defaultDescription": "Un portfolio multilingue construit avec Next.js App Router",
+    "ogTitle": "Découvrez Mon Portfolio",
+    "ogDescription": "Portfolio personnel construit avec Next.js",
+    "siteName": "Mon Portfolio"
+  },
+
+  "common": {
+    "burgerMenu": {
+      "panelLabel": "Go to menu",
+      "openLabel": "Ouvrir le menu",
+      "closeLabel": "Fermer le menu",
+      "about": "About",
+      "navLink2": "Lien 2",
+      "navLink3": "Lien 3"
+    },
+
+    "desktopNav": {
+      "ariaLabel": "Navigation principale",
+      "home": "Accueil",
+      "about": "About",
+      "lien3": "lien3"
+    }
   },
 
   "pages": {
     "home": {
       "introduction": {
-        "main-title": "Welcome to my Portfolio V2",
-        "about": "About me"
+        "main-title": "Bienvenue sur ARCHIMEDES",
+        "about": "A propos"
       }
+    },
+
+    "about": {
+      "title": "Page about"
     }
   }
 }

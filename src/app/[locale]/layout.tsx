@@ -78,13 +78,17 @@ export default async function LocaleLayout({
 
   return (
     // Fournit le contexte de traductions à tous les enfants
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider>
-          <Header locale={locale} />
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    // <html lang={locale}>
+    //   <body>
+    //     <NextIntlClientProvider>
+    //       <Header locale={locale} />
+    //       {children}
+    //     </NextIntlClientProvider>
+    //   </body>
+    // </html>
+    <NextIntlClientProvider>
+      <Header locale={locale} />
+      {children}
+    </NextIntlClientProvider>
   );
 }

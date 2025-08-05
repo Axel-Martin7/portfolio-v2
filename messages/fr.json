@@ -7,12 +7,34 @@
     "siteName": "Mon Portfolio"
   },
 
+  "common": {
+    "burgerMenu": {
+      "panelLabel": "Go to menu",
+      "openLabel": "Ouvrir le menu",
+      "closeLabel": "Fermer le menu",
+      "about": "About",
+      "navLink2": "Lien 2",
+      "navLink3": "Lien 3"
+    },
+
+    "desktopNav": {
+      "ariaLabel": "Navigation principale",
+      "home": "Accueil",
+      "about": "About",
+      "lien3": "lien3"
+    }
+  },
+
   "pages": {
     "home": {
       "introduction": {
-        "main-title": "Bienvenue sur mon Portfolio V2",
+        "main-title": "Bienvenue sur ARCHIMEDES",
         "about": "A propos"
       }
+    },
+
+    "about": {
+      "title": "Page about"
     }
   }
 }

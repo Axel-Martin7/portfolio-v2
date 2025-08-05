@@ -39,5 +39,10 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  return <>{children}</>;
+  return (
+    <html lang="fr">
+      <head />
+      <body>{children}</body>
+    </html>
+  );
 }
