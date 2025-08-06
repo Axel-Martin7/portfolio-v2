@@ -1,13 +1,24 @@
-import { useTranslations } from 'next-intl';
+// import { getTranslations } from 'next-intl/server';
 import styles from './page.module.scss';
-import { Link } from '@/i18n/navigation';
+
+// Si besoin de traduction sur un serveur component :
+// interface HomePageProps {
+//   params: Promise<{ locale: string }>;
+// }
+
+// export default async function Home({ params }: HomePageProps) {
+//   const { locale } = await params;
+//   const t = await getTranslations({
+//     locale,
+//     namespace: 'page.home',
+//   });
 
 export default function Home() {
-  const t = useTranslations('pages.home.introduction');
   return (
-    <main>
-      <h1 className={styles.h1}>{t('main-title')}</h1>
-      <Link href="/about">{t('about')}</Link>
+    <main className={styles.main}>
+      <div className={styles.heroSectionWrapper}>
+        <div className={styles.heroSection}></div>
+      </div>
     </main>
   );
 }

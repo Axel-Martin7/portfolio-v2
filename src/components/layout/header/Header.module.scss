@@ -1,0 +1,104 @@
+// .headerRibbon {
+//   z-index: 1000;
+//   position: fixed;
+//   width: 100%;
+//   border: 1px solid white;
+//   /*------------------ Tablet ------------------*/
+//   @media screen and (min-width: 768px) {
+//     max-width: 2240px;
+//     margin: 0 auto;
+//   }
+
+//   .header {
+//     height: 64px;
+//     display: flex;
+//     align-items: center;
+//     border: 1px solid red;
+//     /*------------------ Tablet ------------------*/
+//     @media screen and (min-width: 768px) {
+//       height: 80px;
+//     }
+
+//     .logoContainer {
+//       border: 1px solid white;
+
+//       .logoLink {
+//         border: 1px solid pink;
+
+//         .logo {
+//           width: 48px;
+//           height: 48px;
+//           border: 1px solid orange;
+//         }
+//       }
+//     }
+
+//     .burgerMenu {
+//       width: 64px;
+//       height: 64px;
+//       border: 1px solid red;
+//       border-radius: 50%;
+//     }
+//   }
+// }
+
+.headerRibbon {
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+  border: 1px solid white;
+
+  .header {
+    height: 64px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    border: 1px solid red;
+
+    .logoContainer {
+      flex: 1 1;
+      display: flex;
+      align-items: center;
+      border: 1px solid white;
+
+      .logoLink {
+        border: 1px solid yellowgreen;
+
+        .logo {
+          width: 48px;
+          height: 48px;
+          border: 1px solid orange;
+          border-radius: 50%;
+        }
+      }
+    }
+
+    .burgerMenu {
+      width: 56px;
+      height: 56px;
+      border: 1px solid orange;
+      border-radius: 50%;
+    }
+
+    .optionsContainer {
+      flex: 1 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border: 1px solid white;
+
+      .localeSwitcherContainer {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        border: 1px solid yellowgreen;
+
+        .localeSwitcher {
+          width: 80px;
+          height: 16px;
+          border: 1px solid orange;
+        }
+      }
+    }
+  }
+}

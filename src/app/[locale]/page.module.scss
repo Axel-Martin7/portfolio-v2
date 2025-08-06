@@ -5,11 +5,19 @@
 // @include mixins.center-content();
 // color: vars.$text-color;
 
-.h1 {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-  font-size: 48px;
+.main {
+  padding: 80px 24px 0; // 64px = taille du header, 24px = espacement avec les bords de l'écran
+  border: 1px solid white;
+
+  .heroSectionWrapper {
+    height: 100vh;
+    border: 1px solid red;
+
+    .heroSection {
+      height: 100%;
+      margin: 0 auto;
+      max-width: 1400px;
+      border: 1px solid green;
+    }
+  }
 }

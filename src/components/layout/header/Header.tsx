@@ -1,22 +1,41 @@
-import React from 'react';
+import { Link } from '@/i18n/navigation';
 import styles from './Header.module.scss';
 
-import { Link } from '@/i18n/navigation';
-import LocaleSwitcher from './LocaleSwitcher';
-
-interface HeaderProps {
-  locale: string;
-}
-
-export default function Header({ locale }: HeaderProps) {
+export default function Header({ locale }: { locale: string }) {
   return (
+    // <header className={styles.headerRibbon}>
+    //   <div className={styles.header}>
+    //     <div className={styles.logoContainer}>
+    //       <Link
+    //         href="/"
+    //         className={styles.logoLink}
+    //         aria-label="go to homepage"
+    //       >
+    //         <div className={styles.logo}></div>
+    //       </Link>
+    //     </div>
+
+    //     <div className={styles.burgerMenu}></div>
+    //   </div>
+    // </header>
+
     <header className={styles.headerRibbon}>
       <div className={styles.header}>
-        <div className={styles.logoContainer}>LOGO AM</div>
+        <div className={styles.logoContainer}>
+          <Link
+            href="/"
+            className={styles.logoLink}
+            aria-label="go to homepage"
+          >
+            <div className={styles.logo}></div>
+          </Link>
+        </div>
+
+        <div className={styles.burgerMenu}></div>
 
         <div className={styles.optionsContainer}>
-          <div className={styles.localeContainer}>
-            <LocaleSwitcher currentLocale={locale} />
+          <div className={styles.localeSwitcherContainer}>
+            <div className={styles.localeSwitcher}></div>
           </div>
         </div>
       </div>
