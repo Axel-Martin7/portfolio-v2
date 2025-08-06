@@ -11,33 +11,106 @@
 
 //   .header {
 //     height: 64px;
+//     padding: 0 24px;
 //     display: flex;
 //     align-items: center;
 //     border: 1px solid red;
-//     /*------------------ Tablet ------------------*/
-//     @media screen and (min-width: 768px) {
-//       height: 80px;
-//     }
 
 //     .logoContainer {
+//       flex: 1 1;
+//       display: flex;
+//       align-items: center;
 //       border: 1px solid white;
 
 //       .logoLink {
-//         border: 1px solid pink;
+//         border: 1px solid yellowgreen;
 
 //         .logo {
 //           width: 48px;
 //           height: 48px;
 //           border: 1px solid orange;
+//           border-radius: 50%;
 //         }
 //       }
 //     }
 
 //     .burgerMenu {
-//       width: 64px;
-//       height: 64px;
-//       border: 1px solid red;
+//       width: 56px;
+//       height: 56px;
+//       border: 1px solid orange;
 //       border-radius: 50%;
+//       /*------------------ Tablet ------------------*/
+//       @media screen and (min-width: 768px) {
+//         display: none;
+//       }
+//     }
+
+//     .navContainer {
+//       display: none;
+//       /*------------------ Tablet ------------------*/
+//       @media screen and (min-width: 768px) {
+//         // display: flex;
+//         display: grid;
+//         grid-template-columns: repeat(12, 1fr);
+//         gap: 32px; /* Gutter de 32px */
+//         width: 100%;
+//         max-width: 1400px;
+//         border: 1px solid white;
+
+//         .navBar {
+//           grid-column: 8 / span 5;
+//           display: flex;
+//           gap: 32px;
+//           border: 1px solid red;
+
+//           .link {
+//             min-height: 32px;
+//             min-width: 32px;
+//             padding: 0 16px;
+
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+//             text-align: center;
+//             color: white;
+//             border: 1px solid orange;
+//           }
+//         }
+//       }
+//     }
+
+//     .optionsContainer {
+//       flex: 1 1;
+//       display: flex;
+//       align-items: center;
+//       justify-content: flex-end;
+//       gap: ;
+//       border: 1px solid white;
+
+//       .ctaBtn {
+//         display: none;
+//         /*------------------ Tablet ------------------*/
+//         @media screen and (min-width: 768px) {
+//           display: block;
+//           padding: 15px 24px;
+
+//           color: white;
+//           border: 1px solid orange;
+//         }
+//       }
+
+//       .localeSwitcherContainer {
+//         min-height: 44px;
+//         display: flex;
+//         align-items: center;
+//         border: 1px solid yellowgreen;
+
+//         .localeSwitcher {
+//           width: 80px;
+//           height: 16px;
+//           border: 1px solid orange;
+//         }
+//       }
 //     }
 //   }
 // }
@@ -47,6 +120,11 @@
   position: fixed;
   width: 100%;
   border: 1px solid white;
+  /*------------------ Tablet ------------------*/
+  @media screen and (min-width: 768px) {
+    max-width: 2240px;
+    margin: 0 auto;
+  }
 
   .header {
     height: 64px;
@@ -54,11 +132,14 @@
     display: flex;
     align-items: center;
     border: 1px solid red;
+    /*------------------ Tablet ------------------*/
+    @media screen and (min-width: 768px) {
+      gap: 64px;
+    }
 
     .logoContainer {
-      flex: 1 1;
+      flex: 1;
       display: flex;
-      align-items: center;
       border: 1px solid white;
 
       .logoLink {
@@ -67,8 +148,8 @@
         .logo {
           width: 48px;
           height: 48px;
-          border: 1px solid orange;
           border-radius: 50%;
+          border: 1px solid orange;
         }
       }
     }
@@ -76,21 +157,70 @@
     .burgerMenu {
       width: 56px;
       height: 56px;
-      border: 1px solid orange;
       border-radius: 50%;
+      border: 1px solid orange;
+      /*------------------ Tablet ------------------*/
+      @media screen and (min-width: 768px) {
+        display: none;
+      }
+    }
+
+    .navContainer {
+      display: none;
+      /*------------------ Tablet ------------------*/
+      @media screen and (min-width: 768px) {
+        width: 100%;
+        max-width: 1400px;
+        display: flex;
+        justify-content: flex-end;
+        border: 1px solid white;
+
+        .navBar {
+          display: flex;
+
+          gap: 32px;
+          border: 1px solid red;
+
+          .link {
+            min-height: 32px;
+            min-width: 32px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            color: white;
+            border: 1px solid orange;
+          }
+        }
+      }
     }
 
     .optionsContainer {
-      flex: 1 1;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
+      flex: 1;
       border: 1px solid white;
+      /*------------------ Tablet ------------------*/
+      @media screen and (min-width: 768px) {
+        display: flex;
+        gap: 24px;
+      }
+
+      .ctaBtn {
+        display: none;
+        /*------------------ Tablet ------------------*/
+        @media screen and (min-width: 768px) {
+          display: flex;
+          align-items: center;
+          padding: 12px 24px;
+          border: 1px solid orange;
+          background-color: grey;
+          white-space: nowrap;
+        }
+      }
 
       .localeSwitcherContainer {
         min-height: 44px;
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         border: 1px solid yellowgreen;
 
         .localeSwitcher {
