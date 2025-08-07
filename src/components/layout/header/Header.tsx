@@ -1,5 +1,6 @@
 import { Link } from '@/i18n/navigation';
 import styles from './Header.module.scss';
+import BurgerMenu from '../BurgerMenu';
 
 export default function Header({ locale }: { locale: string }) {
   return (
@@ -15,7 +16,8 @@ export default function Header({ locale }: { locale: string }) {
           </Link>
         </div>
 
-        <div className={styles.burgerMenu}></div>
+        {/* <div className={styles.burgerMenu}></div> */}
+        <BurgerMenu />
 
         <div className={styles.navContainer}>
           <div className={styles.navBar}>
