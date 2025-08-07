@@ -1,6 +1,8 @@
 import { Link } from '@/i18n/navigation';
 import styles from './Header.module.scss';
 import BurgerMenu from '../BurgerMenu';
+import logo from '@/../public/logo-am.svg';
+import Image from 'next/image';
 
 export default function Header({ locale }: { locale: string }) {
   return (
@@ -12,7 +14,13 @@ export default function Header({ locale }: { locale: string }) {
             className={styles.logoLink}
             aria-label="go to homepage"
           >
-            <div className={styles.logo}></div>
+            <Image
+              src={logo}
+              alt="Logo Archimedes"
+              width={32}
+              height={32}
+              priority
+            />
           </Link>
         </div>
 
