@@ -3,5 +3,5 @@
 @use './mixins' as *; // importe toutes les mixins en top-level
 
 body {
-  background-color: #1e1e1e;
+  background-color: $color-coldgrey-11;
 }
