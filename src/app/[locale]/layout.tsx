@@ -12,7 +12,15 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
+import { Montserrat } from 'next/font/google';
 import Header from '@/components/layout/header/Header';
+
+//*---------------- Chargement de la police d'écriture :
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], //! SUPPRIMER LES WEIGHTS NON UTILISER
+  display: 'swap',
+});
 
 //*---------------- Types des props de notre layout enfant :
 interface LocaleLayoutProps {
@@ -110,7 +118,7 @@ export default async function LocaleLayout({
 
   return (
     // 4) Rend le provider i18n, l'en-tête et le contenu enfant
-    <html lang={locale}>
+    <html lang={locale} className={montserrat.className}>
       <head />
       <body>
         <NextIntlClientProvider>
