@@ -6,6 +6,11 @@ import Image from 'next/image';
 import Button from '@/components/common/Button';
 import DesktopNavigation from './DesktopNavigation';
 
+/*-------------------------------------------------*
+//* Header :
+- Logo, BurgerMenu, DesktopNavigation, CTA button et localeSwitcher
+- Gère l'affichage via media queries dans fichier de style
+*--------------------------------------------------*/
 export default function Header({ locale }: { locale: string }) {
   return (
     <header className={styles.headerRibbon}>
@@ -31,15 +36,6 @@ export default function Header({ locale }: { locale: string }) {
         <div className={styles.navContainer}>
           <DesktopNavigation locale={locale} />
         </div>
-
-        {/* <div className={styles.navContainer}>
-          <div className={styles.navBar}>
-            <div className={styles.link}>Lien 1</div>
-            <div className={styles.link}>Accueil</div>
-            <div className={styles.link}>FAQ</div>
-            <div className={styles.link}>Lien 1</div>
-          </div>
-        </div> */}
 
         <div className={styles.optionsContainer}>
           <Button variant="primary" size="md" className={styles.ctaBtn}>

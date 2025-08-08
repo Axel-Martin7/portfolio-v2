@@ -17,31 +17,6 @@ export default async function DesktopNavigation({
   const t = await getTranslations({ locale, namespace: 'common.navigation' });
 
   return (
-    // <nav
-    //   className={styles.navigation}
-    //   role="navigation"
-    //   aria-label={t('ariaLabel')}
-    // >
-    //   <ul className={styles.navList}>
-    //     {item.map(({ href, translationKey }) => (
-    //       <li key={translationKey} className={styles.mavItem}>
-    //         <Link
-    //           href={href}
-    //           className={styles.navLink}
-    //           aria-current={
-    //             typeof window !== 'undefined' &&
-    //             window.location.pathname === href
-    //               ? 'page'
-    //               : undefined
-    //           }
-    //         >
-    //           {t(translationKey)}
-    //         </Link>
-    //       </li>
-    //     ))}
-    //   </ul>
-    // </nav>
-
     <nav
       className={styles.navigation}
       role="navigation"

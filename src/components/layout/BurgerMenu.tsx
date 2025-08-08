@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BurgerMenu.module.scss';
 import { useTranslations } from 'next-intl';
+import { NavItemConfig } from '@/config/navigation';
+import Button from '../common/Button';
 
 /*-------------------------------------------------*
 //* BurgerMenu :
@@ -12,11 +14,13 @@ import { useTranslations } from 'next-intl';
 - Ferme automatiquement le panneau au clic sur un lien
 *--------------------------------------------------*/
 export default function BurgerMenu() {
-  const t = useTranslations('common.burgerMenu');
+  const tMenu = useTranslations('common.burgerMenu');
+  const tNav = useTranslations('common.navigation');
   const [isOpen, setIsOpen] = useState(false);
+
   // label accessibles :
-  const buttonLabel = isOpen ? t('closeLabel') : t('openLabel');
-  const panelLabel = t('panelLabel');
+  const buttonLabel = isOpen ? tMenu('closeLabel') : tMenu('openLabel');
+  const panelLabel = tMenu('panelLabel');
 
   /*-------------------------------------------------*
   //* toggleMenu :
@@ -70,7 +74,21 @@ export default function BurgerMenu() {
         aria-hidden={!isOpen}
         aria-label={panelLabel}
       >
-        <div className={styles.mobileNavContent}></div>
+        <div className={styles.mobileNavContent}>
+          {NavItemConfig.map(({ href, translationKey }) => (
+            <Button
+              key={translationKey}
+              as="a"
+              href={href}
+              variant="secondary"
+              size="lg"
+              className={styles.navButton}
+              onClick={() => setIsOpen(false)}
+            >
+              {tNav(translationKey)}
+            </Button>
+          ))}
+        </div>
       </nav>
     </>
   );
