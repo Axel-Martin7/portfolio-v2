@@ -1,55 +1,87 @@
 'use client';
 
-import { useRouter, usePathname } from '@/i18n/navigation';
-import { routing } from '@/i18n/routing';
+import React, { useEffect, useState, useTransition } from 'react';
 import styles from './LocaleSwitcher.module.scss';
-
-interface LocaleSwitcherProps {
-  currentLocale: string;
-}
+import { useTranslations } from 'next-intl';
+import { usePathname, useRouter } from '@/i18n/navigation';
 
 /*-------------------------------------------------*
-//* LocaleSwitcher :
-* Objectf :
-* - Permettre à l'utilisateur de changer de langue sans recharger entièrement la page.
-* - Utiliser Next.js router pour gérer le préfixe de locale de manière transparente et SEO-friendly
-* Fonctionnement: 
-* - 'usePathname()' renvoie le chemin actuel sans redéclaration manuelle.
-* - 'router.replace(pathname, {locale}) retire automatiquement l'ancien préfixe et ajoute le nouveau
-* - rendu en Client component pour intéractivité.
-/*-------------------------------------------------*/
-export default function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
-  const router = useRouter();
+//* LocaleSwitcher (Client component)
+- Switch acccessible pour changer la langue
+- role="group" pour le container global
+- <button role="switch"> focusable, gère aria-checked
+- Fallback <noscrip> SEO-friendly
+*--------------------------------------------------*/
+export default function LocaleSwitcher({
+  currentLocale,
+}: {
+  currentLocale: string;
+}) {
+  // 1) Hook i18n et navigation :
+  const t = useTranslations('common.localeSwitcher');
   const pathname = usePathname() || '/';
+  const router = useRouter();
+  // 2) Etat local du switch (checked = 'en'):
+  const [isChecked, setIsChecked] = useState(currentLocale === 'en');
+  const [isPending, startTransition] = useTransition();
 
-  /*-------------------------*
-Change la locale dans l'URL en conservant le reste du chemin et sans préfixe dupliqué :
-/*-------------------------*/
-  function onSwitch(locale: string) {
-    if (locale === currentLocale) return;
-    router.replace(pathname, { locale });
+  // 3) Syncrhonisation SSR -> Client pour éviter mismatch
+  useEffect(() => {
+    setIsChecked(currentLocale === 'en');
+  }, [currentLocale]);
+
+  /*-------------------------------------------------*
+//* toggleLocale : 
+- Inverse l'état du switch
+- Lance la navigation non urgent vers la nouvelle locale
+*--------------------------------------------------*/
+  function toggleLocale() {
+    const nextLocale = isChecked ? 'fr' : 'en';
+    setIsChecked(!isChecked);
+    startTransition(() => {
+      router.replace(pathname, { locale: nextLocale });
+    });
   }
 
   return (
-    <details className={styles.switcher}>
-      <summary className={styles.summary}>
-        {currentLocale.toUpperCase()}
-      </summary>
-      <ul className={styles.list}>
-        {routing.locales
-          .filter((loc) => loc !== currentLocale)
-          .map((loc) => (
-            <li key={loc}>
-              <button
-                type="button"
-                onClick={() => onSwitch(loc)}
-                className={styles.link}
-              >
-                {loc.toUpperCase()}
-              </button>
-            </li>
-          ))}
-      </ul>
-    </details>
+    <div
+      className={styles.switcherContainer}
+      role="group"
+      aria-label={t('label')}
+    >
+      <span className={styles.label} aria-hidden="true">
+        FR
+      </span>
+
+      {/* Interrupteur accessible */}
+      <button
+        className={`${styles.switch} ${isChecked ? styles.checked : ''}`}
+        type="button"
+        role="switch"
+        aria-checked={isChecked}
+        aria-label={t('label')}
+        onClick={toggleLocale}
+      >
+        {/* Boule glissant */}
+        <span className={styles.slider} aria-hidden="true" />
+      </button>
+
+      <span className={styles.label} aria-hidden="true">
+        EN
+      </span>
+
+      {/* Fallback pour navigateurs sans JS */}
+      <noscript>
+        <a
+          href={
+            currentLocale === 'en'
+              ? '/'
+              : `/en${pathname === '/' ? '' : pathname}`
+          }
+        >
+          {currentLocale === 'en' ? 'FR' : 'EN'}
+        </a>
+      </noscript>
+    </div>
   );
 }

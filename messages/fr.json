@@ -20,10 +20,12 @@
     "navigation": {
       "ariaLabel": "Navigation principale",
       "home": "Accueil",
-      "about": "About",
+      "about": "A propos",
       "lien3": "lien3",
       "lien4": "lien4"
-    }
+    },
+
+    "localeSwitcher": {}
   },
 
   "pages": {

@@ -1,50 +1,133 @@
-/**
- * LocaleSwitcher.module.scss
- *
- * Styles du sélecteur de langue :
- * - .switcher : position relative pour dropdown
- * - .summary : style du bouton principal
- * - .list : dropdown absolu sous summary
- * - .link : style des items
- */
+@use '@/styles/variables' as vars;
+@use '@/styles/mixins' as mixins;
 
-.switcher {
-  position: relative;
-  display: inline-block;
-}
-.switcher summary {
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  background: #eee;
-  border-radius: 4px;
-  list-style: none;
-}
-.switcher summary::-webkit-details-marker {
-  display: none;
-}
-.switcher .list {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin: 0.25rem 0 0;
-  padding: 0.5rem 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  list-style: none;
-  min-width: 4rem;
-}
-.switcher .link {
-  display: block;
-  width: 100%;
-  padding: 0.25rem 0.5rem;
-  background: none;
-  border: none;
-  text-align: left;
-  font: inherit;
-  cursor: pointer;
-}
-.switcher .link:hover {
-  background: #f0f0f0;
+// .switcherContainer {
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+//   border: 1px solid red;
+
+//   .label {
+//     color: vars.$color-coldgrey-5;
+//     user-select: none; // Empeche la selection de "FR"/"EN"
+//     pointer-events: none; // clics transmis au button
+//   }
+
+//   .switch {
+//     position: relative;
+//     width: 76px; // 48px (track) + 2×14px marge interne pour zone clic
+//     height: 44px; // 16px (track) + 2×14px zone clic vert/vers
+//     border: none;
+//     background: none;
+//     cursor: pointer;
+
+//     &:focus-visible {
+//       outline: 2px solid red;
+//       outline-offset: 2px;
+//     }
+
+//     /* Track étroit et centré */
+//     &::before {
+//       content: '';
+//       z-index: 0;
+//       position: absolute;
+//       top: 50%;
+//       left: 14px;
+//       width: 48px;
+//       height: 16px;
+//       background: black;
+//       border-radius: 16px;
+//       transform: translateY(-50%);
+//       transition: background 0.2s;
+//     }
+
+//     /* Boule glissante */
+//     .slider {
+//       z-index: 1;
+//       position: absolute;
+//       top: 50%;
+//       left: 18px; // 14px (padding) + 4px (marge intérieure)
+//       width: 24px;
+//       height: 24px;
+//       border-radius: 50%;
+//       background: white;
+//       transform: translateY(-50%);
+//       transition: left 0.2s;
+//     }
+//   }
+
+//   /* Etat "checked" : fond du track + déplacement de la boule */
+//   .checked::before {
+//     background: blue;
+//   }
+//   .checked .slider {
+//     /* 14px (padding) + (48 - 24 - 4) = 14 + 20 = 34px */
+//     left: 34px;
+//   }
+// }
+
+.switcherContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border: 1px solid red;
+
+  .label {
+    color: vars.$color-coldgrey-5;
+    user-select: none; // Empeche la selection de "FR"/"EN"
+    pointer-events: none; // clics transmis au button
+    border: 1px solid orange;
+  }
+
+  .switch {
+    position: relative;
+    width: 48px; // 32px (track) + 2×8px marge interne pour zone clic
+    height: 44px; // 16px (track) + 2×14px zone clic vert/vers
+    border: none;
+    background: none;
+    cursor: pointer;
+    border: 1px solid white;
+
+    &:focus-visible {
+      outline: 2px solid vars.$color-coldgrey-2;
+      outline-offset: 2px;
+    }
+
+    /* Track étroit et centré */
+    &::before {
+      content: '';
+      z-index: 0;
+      position: absolute;
+      top: 50%;
+      left: 8px;
+      width: 32px;
+      height: 16px;
+      background: black;
+      border-radius: 16px;
+      transform: translateY(-50%);
+    }
+
+    /* Boule glissante */
+    .slider {
+      z-index: 1;
+      position: absolute;
+      top: 50%;
+      left: 8px; // 14px (padding) + 2px (marge intérieure)
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      transform: translateY(-50%);
+      transition: left 0.2s;
+      border: 1px solid white;
+    }
+  }
+
+  /* Etat "checked" : fond du track + déplacement de la boule */
+  .checked::before {
+    background: blue;
+  }
+  .checked .slider {
+    left: 24px;
+  }
 }

@@ -5,6 +5,7 @@ import logo from '@/../public/logo-am.svg';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import DesktopNavigation from './DesktopNavigation';
+import LocaleSwitcher from '../LocaleSwitcher';
 
 /*-------------------------------------------------*
 //* Header :
@@ -41,9 +42,7 @@ export default function Header({ locale }: { locale: string }) {
           <Button variant="primary" size="md" className={styles.ctaBtn}>
             Rencontrons-nous
           </Button>
-          <div className={styles.localeSwitcherContainer}>
-            <div className={styles.localeSwitcher}></div>
-          </div>
+          <LocaleSwitcher currentLocale={locale} />
         </div>
       </div>
     </header>

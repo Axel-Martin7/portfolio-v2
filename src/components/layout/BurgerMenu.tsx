@@ -32,14 +32,6 @@ export default function BurgerMenu() {
   }
 
   /*-------------------------------------------------*
-  //* closeMenu :
-  - Ferme le menu (utilisé sur chaque lien de nav)
-  *--------------------------------------------------*/
-  function closeMenu() {
-    setIsOpen(false);
-  }
-
-  /*-------------------------------------------------*
   - Bloque/Débloque le scroll du body selon 'isOpen'
   *--------------------------------------------------*/
   useEffect(() => {
