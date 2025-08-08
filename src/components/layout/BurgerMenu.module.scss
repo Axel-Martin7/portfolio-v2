@@ -131,11 +131,17 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    // background-color: vars.$color-coldgrey-11;
-    background: radial-gradient(
-      vars.$color-coldgrey-9 0%,
-      vars.$color-coldgrey-11 100%
+    background: linear-gradient(
+      90deg,
+      vars.$color-coldgrey-10 0%,
+      vars.$color-coldgrey-8 50%,
+      vars.$color-coldgrey-10 100%
     );
+    // background: radial-gradient(
+    //   vars.$color-coldgrey-10 0%,
+    //   vars.$color-coldgrey-10 100%
+    // );
+
     /* caché : on translate de -100% de SA hauteur */
     transform: translateY(-100%);
     transition: transform 0.3s ease-in-out;

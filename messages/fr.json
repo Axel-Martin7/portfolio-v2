@@ -17,11 +17,12 @@
       "navLink3": "Lien 3"
     },
 
-    "desktopNav": {
+    "navigation": {
       "ariaLabel": "Navigation principale",
       "home": "Accueil",
       "about": "About",
-      "lien3": "lien3"
+      "lien3": "lien3",
+      "lien4": "lien4"
     }
   },
 
