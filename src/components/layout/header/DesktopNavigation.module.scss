@@ -1,0 +1,20 @@
+@use '@/styles/variables' as vars;
+@use '@/styles/mixins' as mixins;
+
+.navList {
+  display: flex;
+  gap: 32px;
+  border: 1px solid red;
+
+  .navLink {
+    min-width: 32px; /* largeur minimale de zone cliquable */
+    min-height: 32px; /* hauteur minimale de zone cliquable */
+    display: inline-flex;
+    align-items: center;
+    color: vars.$color-coldgrey-5;
+    border: 1px solid orange;
+    &:hover {
+      color: vars.$color-coldgrey-2;
+    }
+  }
+}

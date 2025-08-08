@@ -3,8 +3,8 @@ import styles from './Header.module.scss';
 import BurgerMenu from '../BurgerMenu';
 import logo from '@/../public/logo-am.svg';
 import Image from 'next/image';
-import Navigation from '../Navigation';
 import Button from '@/components/common/Button';
+import DesktopNavigation from './DesktopNavigation';
 
 export default function Header({ locale }: { locale: string }) {
   return (
@@ -28,7 +28,9 @@ export default function Header({ locale }: { locale: string }) {
 
         <BurgerMenu />
 
-        <Navigation locale={locale} />
+        <div className={styles.navContainer}>
+          <DesktopNavigation locale={locale} />
+        </div>
 
         {/* <div className={styles.navContainer}>
           <div className={styles.navBar}>
