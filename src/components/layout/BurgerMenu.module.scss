@@ -98,3 +98,52 @@
     }
   }
 }
+
+//*------------ PANNEAU MOBILE (wrapper) :
+/* 
+- Plein écran sous le header
+- Fermé: pointer-events none
+- Ouvert: pointer-events auto
+*/
+.mobileNavPanel {
+  z-index: 999; // ne recouvre pas le header (qui a z-index 1000)
+  position: fixed;
+  top: 80px; // hauteur du header mobile
+  left: 0;
+  right: 0;
+  height: calc(100vh - 80px); // ne couvre que le reste de la fenêtre
+  overflow: hidden; // masque tout ce qui déborde (scroll, slide)
+  pointer-events: none; // fermé : pas de click
+  border: 1px solid black;
+  &.open {
+    pointer-events: auto; // ouvert: on capte les clics
+  }
+  /*------------------ Tablet ------------------*/
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+
+  /* Contenu slide */
+  .mobileNavContent {
+    position: absolute;
+    inset: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    // background-color: vars.$color-coldgrey-11;
+    background: radial-gradient(
+      vars.$color-coldgrey-9 0%,
+      vars.$color-coldgrey-11 100%
+    );
+    /* caché : on translate de -100% de SA hauteur */
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid red;
+  }
+
+  /* Ouverture: slide vers le bas */
+  &.open .mobileNavContent {
+    transform: translateY(0);
+  }
+}

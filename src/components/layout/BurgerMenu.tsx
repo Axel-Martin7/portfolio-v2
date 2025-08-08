@@ -62,6 +62,16 @@ export default function BurgerMenu() {
           </div>
         </div>
       </button>
+
+      {/* Navigation mobile (toujours dans le DOM pour le SEO) */}
+      <nav
+        className={`${styles.mobileNavPanel} ${isOpen ? styles.open : ''}`}
+        role="navigation"
+        aria-hidden={!isOpen}
+        aria-label={panelLabel}
+      >
+        <div className={styles.mobileNavContent}></div>
+      </nav>
     </>
   );
 }
