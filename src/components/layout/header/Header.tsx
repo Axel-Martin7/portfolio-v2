@@ -3,6 +3,8 @@ import styles from './Header.module.scss';
 import BurgerMenu from '../BurgerMenu';
 import logo from '@/../public/logo-am.svg';
 import Image from 'next/image';
+import Navigation from '../Navigation';
+import Button from '@/components/common/Button';
 
 export default function Header({ locale }: { locale: string }) {
   return (
@@ -24,20 +26,23 @@ export default function Header({ locale }: { locale: string }) {
           </Link>
         </div>
 
-        {/* <div className={styles.burgerMenu}></div> */}
         <BurgerMenu />
 
-        <div className={styles.navContainer}>
+        <Navigation locale={locale} />
+
+        {/* <div className={styles.navContainer}>
           <div className={styles.navBar}>
             <div className={styles.link}>Lien 1</div>
             <div className={styles.link}>Accueil</div>
             <div className={styles.link}>FAQ</div>
             <div className={styles.link}>Lien 1</div>
           </div>
-        </div>
+        </div> */}
 
         <div className={styles.optionsContainer}>
-          <div className={styles.ctaBtn}>Rencontrons-nous</div>
+          <Button variant="primary" size="md" className={styles.ctaBtn}>
+            Rencontrons-nous
+          </Button>
           <div className={styles.localeSwitcherContainer}>
             <div className={styles.localeSwitcher}></div>
           </div>
