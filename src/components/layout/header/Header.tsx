@@ -6,13 +6,16 @@ import Image from 'next/image';
 import Button from '@/components/common/Button';
 import DesktopNavigation from './DesktopNavigation';
 import LocaleSwitcher from '../LocaleSwitcher';
+import { getTranslations } from 'next-intl/server';
 
 /*-------------------------------------------------*
 //* Header :
 - Logo, BurgerMenu, DesktopNavigation, CTA button et localeSwitcher
 - Gère l'affichage via media queries dans fichier de style
 *--------------------------------------------------*/
-export default function Header({ locale }: { locale: string }) {
+export default async function Header({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'common.header' });
+
   return (
     <header className={styles.headerRibbon}>
       <div className={styles.header}>
@@ -40,14 +43,14 @@ export default function Header({ locale }: { locale: string }) {
 
         <div className={styles.optionsContainer}>
           <Button
+            className={styles.ctaBtn}
             as="link"
             href="/"
             variant="primary"
             size="md"
-            className={styles.ctaBtn}
-            ariaLabel={t('common.header.ctaAriaLabel')}
+            ariaLabel={t('ctaBtnArialabel')}
           >
-            {t('common.header.label')}
+            {t('ctaBtnLabel')}
           </Button>
           <LocaleSwitcher currentLocale={locale} />
         </div>
