@@ -69,6 +69,7 @@ export default function BurgerMenu() {
         <div className={styles.mobileNavContent}>
           {NavItemConfig.map(({ href, translationKey }) => (
             <Button
+              key={translationKey}
               as="link"
               href={href}
               variant="nav"
