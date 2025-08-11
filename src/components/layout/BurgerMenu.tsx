@@ -70,6 +70,7 @@ export default function BurgerMenu() {
           {NavItemConfig.map(({ href, translationKey }) => (
             <Button
               key={translationKey}
+              className={styles.button}
               as="link"
               href={href}
               variant="nav"

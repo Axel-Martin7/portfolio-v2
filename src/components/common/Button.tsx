@@ -119,7 +119,7 @@ export default function Button(props: ButtonProps) {
         aria-label={ariaLabel}
         {...btnRest}
       >
-        {children}
+        <span className={styles.content}>{children}</span>
       </button>
     );
   }
@@ -139,7 +139,7 @@ export default function Button(props: ButtonProps) {
         aria-label={ariaLabel}
         {...aRest}
       >
-        {children}
+        <span className={styles.content}>{children}</span>
       </a>
     );
   }
@@ -153,7 +153,7 @@ export default function Button(props: ButtonProps) {
     if (typeof href === 'string' && isExternalHref(href)) {
       return (
         <a className={cls} href={href} aria-label={ariaLabel}>
-          {children}
+          <span className={styles.content}>{children}</span>
         </a>
       );
     }
