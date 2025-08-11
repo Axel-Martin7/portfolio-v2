@@ -130,7 +130,9 @@
     padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
     background: linear-gradient(
       90deg,
       vars.$color-coldgrey-10 0%,

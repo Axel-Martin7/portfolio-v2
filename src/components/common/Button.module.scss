@@ -2,182 +2,117 @@
 @use '@/styles/mixins' as mixins;
 
 /*-------------------------------------------------* 
-//* Base : consomme des variables CSS (tokens)
-//* - Les variants ne font que SETTER ces variables
+//* Base (consomme des variables CSS)
+ - Les variants définissent les tokens (--btn-*) ci-dessous
+ - ⚠️ Aucun "look" final ici : juste la structure + états génériques
 /*-------------------------------------------------*/
-// .button {
-//   /* Tokens pas défaut (variant peut les override) */
-//   --btn-fg: #{vars.$color-coldgrey-1};
-
-//   position: relative;
-//   display: inline-flex;
-//   align-items: center;
-//   justify-content: center;
-//   gap: 0.5rem;
-
-//   min-width: 44px; /* cible tactile */
-//   text-decoration: none;
-//   white-space: nowrap;
-
-//   color: var(--btn-fg);
-//   background-color: red;
-//   border: 1px solid var(--btn-fg);
-//   cursor: pointer;
-//   user-select: none;
-
-//   @media (prefers-reduced-motion: no-preference) {
-//     transition: background-color 0.2s ease, color 0.2s ease,
-//       border-color 0.2s ease, box-shadow 0.2s ease, transform 0.06s ease;
-//   }
-
-//   @media (hover: hover) {
-//     &:hover {
-//       background: red;
-//     }
-//   }
-
-//   &:active {
-//     background: blue;
-//     // box-shadow: var(--btn-shadow-active, var(--btn-shadow-hover, var(--btn-shadow)));
-//     transform: translateY(0.5px) scale(0.998);
-//   }
-
-//   &:focus-visible {
-//     outline: 2px solid vars.$color-coldgrey-2;
-//     outline-offset: 2px;
-//   }
-
-//   &:disabled,
-//   &[aria-disabled='true'] {
-//     opacity: 0.6;
-//     cursor: not-allowed;
-//   }
-// }
-
 .button {
-  border: 1px solid red;
+  /* Tokens par défaut (serviront de fallback si pas de variante) */
+  --btn-fg: #{vars.$color-coldgrey-1};
+
+  // Structure commune:
+  position: relative;
+  min-width: 44px; // Cible tactile
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: vars.$color-coldgrey-4;
+  font-weight: 500;
+  text-shadow: 0px -1px 1px vars.$color-coldgrey-12;
+  white-space: nowrap;
+  border: 1px solid vars.$color-coldgrey-12;
+  border-radius: 32px;
+  background: linear-gradient(
+    to top,
+    vars.$color-coldgrey-9 0%,
+    vars.$color-coldgrey-7 80%,
+    vars.$color-coldgrey-8 100%
+  );
+  box-shadow: 0 4px 3px vars.$color-coldgrey-8, 0 6px 8px vars.$color-coldgrey-9,
+    0 -4px 4px vars.$color-coldgrey-9, 0 -6px 4px vars.$color-coldgrey-8,
+    inset 0 0 3px vars.$color-coldgrey-9;
+  cursor: pointer;
+  user-select: none;
+
+  /* Cible UNIQUEMENT le contenu (cf. <span className={styles.content}> dans Button.tsx */
+  .content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+  }
+
+  /* Effets "motion-safe" : animés seulement si l’utilisateur n’a PAS demandé
+     de réduire les animations dans son OS (accessibilité + perf) */
+  @media (prefers-reduced-motion: no-preference) {
+    transition: background-color 0.2s ease, color 0.2s ease,
+      border-color 0.2s ease, box-shadow 0.2s ease, transform 0.06s ease;
+  }
+  /* Hover seulement si l’appareil supporte le survol (desktop).
+     Évite les états collants sur mobile (UX) */
+  @media (hover: hover) {
+    &:hover {
+      color: vars.$color-coldgrey-2;
+      box-shadow: 0 4px 3px vars.$color-coldgrey-8,
+        0 6px 8px vars.$color-coldgrey-9, 0 -4px 4px vars.$color-coldgrey-9,
+        0 -6px 4px vars.$color-coldgrey-8,
+        inset 0 0 3px 3px vars.$color-coldgrey-9;
+    }
+  }
+  /* Actif : léger enfoncement (feedback tactile) */
+  &:active {
+    background: linear-gradient(
+      to top,
+      vars.$color-coldgrey-10 0%,
+      vars.$color-coldgrey-8 80%,
+      vars.$color-coldgrey-9 100%
+    );
+    box-shadow: 0 4px 3px vars.$color-coldgrey-8,
+      0 6px 8px vars.$color-coldgrey-9, 0 -4px 4px vars.$color-coldgrey-9,
+      0 -6px 4px vars.$color-coldgrey-8,
+      inset 0 0 5px 3px vars.$color-coldgrey-11,
+      inset 0 0 30px vars.$color-coldgrey-11;
+  }
+  /* Focus clavier visible (a11y) */
+  &:focus-visible {
+    outline: 2px solid vars.$color-coldgrey-2;
+    outline-offset: 2px;
+  }
+  /* États désactivés (boutons & liens)
+     - :disabled => vrai <button disabled>
+     - [aria-disabled="true"] => <a> “désactivé” annoncé aux lecteurs d’écran
+     - On NE met PAS pointer-events:none pour conserver le focus clavier */
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 /*-------------------------------------------------* 
-//* Sizes
+//* Sizes 
 /*-------------------------------------------------*/
 .s_sm {
-  min-height: 32px;
-  padding: 0 12px;
-  font-size: 0.8125rem;
 }
 .s_md {
-  min-height: 40px;
-  padding: 0 16px;
-  font-size: 0.875rem;
+  min-height: 44px;
+  padding: 15px;
 }
 .s_lg {
-  min-height: 48px;
-  padding: 0 20px;
-  font-size: 0.9375rem;
 }
 .s_xl {
-  min-height: 56px;
-  padding: 0 24px;
-  font-size: 1rem;
 }
 
 .fullWidth {
-  width: 100%;
 }
 
 /*-------------------------------------------------* 
-//* Variant: NAV (panneau mobile BurgerMenu)
-//* - Style “neumorphique” proche de ton exemple :
-//*   gradient to top + pile d’ombres (externes + inset)
-/*-------------------------------------------------*/
-// .v_nav {
-//   /* Layout */
-//   width: 100%;
-//   font-weight: 600;
-//   letter-spacing: 0.02em;
-//   text-align: center;
-
-//   /* Tokens visuels */
-//   --btn-fg: #{vars.$color-coldgrey-2};
-//   --btn-bg: linear-gradient(
-//     to top,
-//     #{vars.$color-coldgrey-10} 0%,
-//     #{vars.$color-coldgrey-7} 80%,
-//     #{vars.$color-coldgrey-8} 100%
-//   );
-//   --btn-bg-hover: linear-gradient(
-//     to top,
-//     #{vars.$color-coldgrey-9} 0%,
-//     #{vars.$color-coldgrey-6} 80%,
-//     #{vars.$color-coldgrey-7} 100%
-//   );
-//   --btn-bg-active: linear-gradient(
-//     to top,
-//     #{vars.$color-coldgrey-10} 0%,
-//     #{vars.$color-coldgrey-8} 100%
-//   );
-//   --btn-border: rgba(255, 255, 255, 0.08);
-
-//   /* Ombres multi-couches (hover/active via vars distinctes) */
-//   --btn-shadow: 0px 4px 3px 1px #{vars.$color-coldgrey-2},
-//     0px 6px 8px #{vars.$color-coldgrey-9},
-//     0px -4px 4px #{vars.$color-coldgrey-11},
-//     0px -6px 4px #{vars.$color-coldgrey-3},
-//     inset 0px 0px 3px #{vars.$color-coldgrey-10};
-
-//   --btn-shadow-hover: 0px 4px 3px 1px #{vars.$color-coldgrey-2},
-//     0px 6px 8px #{vars.$color-coldgrey-9},
-//     0px -4px 4px #{vars.$color-coldgrey-11},
-//     0px -6px 4px #{vars.$color-coldgrey-3},
-//     inset 0px 0px 3px 3px #{vars.$color-coldgrey-10};
-
-//   --btn-shadow-active: 0px 4px 3px 1px #{vars.$color-coldgrey-2},
-//     0px 6px 8px #{vars.$color-coldgrey-9},
-//     0px -4px 4px #{vars.$color-coldgrey-11},
-//     0px -6px 4px #{vars.$color-coldgrey-3},
-//     inset 0px 0px 5px 3px #{vars.$color-coldgrey-11},
-//     inset 0px 0px 30px #{vars.$color-coldgrey-10};
-
-//   /* Responsive optionnel comme ton exemple */
-//   @media (min-width: 498px) {
-//     width: 50%;
-//     margin-inline: auto;
-//     max-width: 420px;
-//   }
-// }
-
-/*-------------------------------------------------* 
-//* Variant: PRIMARY (CTA Header Desktop)
-/*-------------------------------------------------*/
-// .v_primary {
-//   font-weight: 600;
-//   letter-spacing: 0.01em;
-
-//   --btn-fg: #{vars.$color-coldgrey-1};
-//   --btn-bg: linear-gradient(
-//     45deg,
-//     #{vars.$color-coldgrey-6} 0%,
-//     #{vars.$color-coldgrey-4} 100%
-//   );
-//   --btn-bg-hover: linear-gradient(
-//     45deg,
-//     #{vars.$color-coldgrey-5} 0%,
-//     #{vars.$color-coldgrey-3} 100%
-//   );
-//   --btn-bg-active: linear-gradient(
-//     45deg,
-//     #{vars.$color-coldgrey-7} 0%,
-//     #{vars.$color-coldgrey-5} 100%
-//   );
-//   --btn-border: rgba(255, 255, 255, 0.08);
-
-//   --btn-shadow: 0px 2px 6px rgba(0, 0, 0, 0.35),
-//     inset 0 1px 0 rgba(255, 255, 255, 0.06);
-
-//   --btn-shadow-hover: 0px 3px 8px rgba(0, 0, 0, 0.4),
-//     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-
-//   --btn-shadow-active: 0px 1px 3px rgba(0, 0, 0, 0.35),
-//     inset 0 2px 4px rgba(0, 0, 0, 0.3);
-// }
+//* Variant: NAV (panneau BurgerMenu)
+ - Full width en petit mobile
+ - Largeur fixe après 498px (par défaut 250px pour respecter ton essai)
+ - Dégradé "to top" + pile d'ombres + hover/active
+ - Gradient text au hover (sur .content)
+ /*-------------------------------------------------*/
+.v_nav {
+  width: 250px;
+}
