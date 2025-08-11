@@ -23,6 +23,12 @@
       "about": "About",
       "lien3": "lien3",
       "lien4": "lien4"
+    },
+
+    "localeSwitcher": {
+      "label": "Langue",
+      "english": "Anglais",
+      "french": "Français"
     }
   },
 

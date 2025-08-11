@@ -1,82 +1,19 @@
 @use '@/styles/variables' as vars;
 @use '@/styles/mixins' as mixins;
 
-// .switcherContainer {
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-//   border: 1px solid red;
-
-//   .label {
-//     color: vars.$color-coldgrey-5;
-//     user-select: none; // Empeche la selection de "FR"/"EN"
-//     pointer-events: none; // clics transmis au button
-//   }
-
-//   .switch {
-//     position: relative;
-//     width: 76px; // 48px (track) + 2×14px marge interne pour zone clic
-//     height: 44px; // 16px (track) + 2×14px zone clic vert/vers
-//     border: none;
-//     background: none;
-//     cursor: pointer;
-
-//     &:focus-visible {
-//       outline: 2px solid red;
-//       outline-offset: 2px;
-//     }
-
-//     /* Track étroit et centré */
-//     &::before {
-//       content: '';
-//       z-index: 0;
-//       position: absolute;
-//       top: 50%;
-//       left: 14px;
-//       width: 48px;
-//       height: 16px;
-//       background: black;
-//       border-radius: 16px;
-//       transform: translateY(-50%);
-//       transition: background 0.2s;
-//     }
-
-//     /* Boule glissante */
-//     .slider {
-//       z-index: 1;
-//       position: absolute;
-//       top: 50%;
-//       left: 18px; // 14px (padding) + 4px (marge intérieure)
-//       width: 24px;
-//       height: 24px;
-//       border-radius: 50%;
-//       background: white;
-//       transform: translateY(-50%);
-//       transition: left 0.2s;
-//     }
-//   }
-
-//   /* Etat "checked" : fond du track + déplacement de la boule */
-//   .checked::before {
-//     background: blue;
-//   }
-//   .checked .slider {
-//     /* 14px (padding) + (48 - 24 - 4) = 14 + 20 = 34px */
-//     left: 34px;
-//   }
-// }
-
 .switcherContainer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  border: 1px solid red;
 
   .label {
     color: vars.$color-coldgrey-5;
     user-select: none; // Empeche la selection de "FR"/"EN"
     pointer-events: none; // clics transmis au button
-    border: 1px solid orange;
+
+    font-size: clamp(0.625rem, 0.6rem + 0.2vw, 0.75rem);
+    font-weight: 600;
+    white-space: nowrap;
   }
 
   .switch {
@@ -86,7 +23,6 @@
     border: none;
     background: none;
     cursor: pointer;
-    border: 1px solid white;
 
     &:focus-visible {
       outline: 2px solid vars.$color-coldgrey-2;
@@ -129,5 +65,17 @@
   }
   .checked .slider {
     left: 24px;
+  }
+
+  .srOnly {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important; /* évite le retour à la ligne */
+    border: 0 !important;
   }
 }

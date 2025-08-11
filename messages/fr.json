@@ -25,7 +25,11 @@
       "lien4": "lien4"
     },
 
-    "localeSwitcher": {}
+    "localeSwitcher": {
+      "label": "Langue",
+      "english": "Anglais",
+      "french": "Français"
+    }
   },
 
   "pages": {
