@@ -8,6 +8,10 @@
   },
 
   "common": {
+    "header": {
+      "label": "Rencontrons-nous",
+      "ctaAriaLabel": "cta ariaLabel"
+    },
     "burgerMenu": {
       "panelLabel": "Go to menu",
       "openLabel": "Ouvrir le menu",

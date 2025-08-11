@@ -39,8 +39,15 @@ export default function Header({ locale }: { locale: string }) {
         </div>
 
         <div className={styles.optionsContainer}>
-          <Button variant="primary" size="md" className={styles.ctaBtn}>
-            Rencontrons-nous
+          <Button
+            as="link"
+            href="/"
+            variant="primary"
+            size="md"
+            className={styles.ctaBtn}
+            ariaLabel={t('common.header.ctaAriaLabel')}
+          >
+            {t('common.header.label')}
           </Button>
           <LocaleSwitcher currentLocale={locale} />
         </div>

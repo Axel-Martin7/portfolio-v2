@@ -69,13 +69,12 @@ export default function BurgerMenu() {
         <div className={styles.mobileNavContent}>
           {NavItemConfig.map(({ href, translationKey }) => (
             <Button
-              key={translationKey}
-              as="a"
+              as="link"
               href={href}
-              variant="secondary"
+              variant="nav"
               size="lg"
-              className={styles.navButton}
               onClick={() => setIsOpen(false)}
+              ariaLabel={tNav(translationKey)}
             >
               {tNav(translationKey)}
             </Button>
