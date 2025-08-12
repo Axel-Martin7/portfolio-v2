@@ -8,6 +8,12 @@
   },
 
   "common": {
+    "header": {
+      "logoAriaLabel": "Logo Axel Martin",
+      "ctaBtnLabel": "Rencontrons-nous",
+      "ctaBtnArialabel": "cta ariaLabel"
+    },
+
     "burgerMenu": {
       "panelLabel": "Go to menu",
       "openLabel": "Ouvrir le menu",

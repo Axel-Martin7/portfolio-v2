@@ -9,6 +9,7 @@
 
   "common": {
     "header": {
+      "logoAriaLabel": "Logo Axel Martin",
       "ctaBtnLabel": "Rencontrons-nous",
       "ctaBtnArialabel": "cta ariaLabel"
     },

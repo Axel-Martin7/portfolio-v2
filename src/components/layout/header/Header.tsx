@@ -23,13 +23,15 @@ export default async function Header({ locale }: { locale: string }) {
           <Link
             href="/"
             className={styles.logoLink}
-            aria-label="go to homepage"
+            aria-label={t('logoAriaLabel')}
           >
             <Image
+              className={styles.logo}
               src={logo}
               alt="Logo Archimedes"
               width={48}
               height={48}
+              sizes="(min-width: 768px) 48px, 32px" // ✅ sert le bon fichier selon le breakpoint
               priority
             />
           </Link>

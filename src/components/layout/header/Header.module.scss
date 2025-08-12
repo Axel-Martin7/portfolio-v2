@@ -1,3 +1,6 @@
+@use '@/styles/variables' as vars;
+@use '@/styles/mixins' as mixins;
+
 .headerRibbon {
   z-index: 1000;
   position: fixed;
@@ -25,10 +28,27 @@
       display: flex;
 
       .logoLink {
+        display: inline-flex;
+        align-items: center;
+        width: 44px;
+        height: 44px;
+
+        /* Focus clavier visible (a11y) */
+        &:focus-visible {
+          outline: 2px solid vars.$color-coldgrey-2;
+          outline-offset: 2px;
+          border-radius: 8px;
+        }
+
         .logo {
-          width: 48px;
-          height: 48px;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
+          /*------------------ Tablet ------------------*/
+          @media screen and (min-width: 768px) {
+            width: 48px;
+            height: 48px;
+          }
         }
       }
     }
