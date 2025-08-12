@@ -14,7 +14,6 @@ import {
 } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
-import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import Header from '@/components/layout/header/Header';
@@ -28,7 +27,7 @@ const montserrat = Montserrat({
 
 //*---------------- Types des props de notre layout enfant :
 interface LocaleLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }
 
@@ -51,7 +50,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   //---------------- 1) Récupère la locale :
   const { locale } = await params;
-
   //---------------- 2) Charge les traductions du namespae "metadata" :
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
@@ -78,7 +76,11 @@ export async function generateMetadata({
     ])
   );
 
+  // Ajout de x-default pour les moteurs:
+  languages['x-default'] = baseUrl;
+
   return {
+    metadataBase: new URL(baseUrl),
     // Titres et descriptions traduits
     title: t('defaultTitle'),
     description: t('defaultDescription'),
@@ -126,7 +128,6 @@ export default async function LocaleLayout({
   return (
     // 5) Rend le provider i18n, l'en-tête et le contenu enfant
     <html lang={locale} className={montserrat.className}>
-      <head />
       <body>
         <NextIntlClientProvider messages={messages}>
           {/* HTML/body are handled by RootLayout */}

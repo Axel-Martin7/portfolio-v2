@@ -13,20 +13,26 @@
       "ctaBtnLabel": "Rencontrons-nous",
       "ctaBtnArialabel": "cta ariaLabel"
     },
-
     "burgerMenu": {
       "panelLabel": "Go to menu",
       "openLabel": "Ouvrir le menu",
       "closeLabel": "Fermer le menu",
       "about": "About",
       "navLink2": "Lien 2",
-      "navLink3": "Lien 3"
+      "navLink3": "Lien 3",
+      "socials": {
+        "ariaLabel": "Liens vers les réseaux sociaux",
+        "github": "Ouvrir GitHub",
+        "linkedin": "Ouvrir LinkedIn",
+        "x": "Ouvrir X (Twitter)",
+        "instagram": "Ouvrir Instagram"
+      }
     },
 
     "navigation": {
       "ariaLabel": "Navigation principale",
-      "home": "Home",
-      "about": "About",
+      "home": "Accueil",
+      "about": "A propos",
       "lien3": "lien3",
       "lien4": "lien4"
     },

@@ -19,7 +19,14 @@
       "closeLabel": "Fermer le menu",
       "about": "About",
       "navLink2": "Lien 2",
-      "navLink3": "Lien 3"
+      "navLink3": "Lien 3",
+      "socials": {
+        "ariaLabel": "Liens vers les réseaux sociaux",
+        "github": "Ouvrir GitHub",
+        "linkedin": "Ouvrir LinkedIn",
+        "x": "Ouvrir X (Twitter)",
+        "instagram": "Ouvrir Instagram"
+      }
     },
 
     "navigation": {
