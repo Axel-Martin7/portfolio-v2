@@ -21,6 +21,7 @@ export default function LocaleSwitcher({
   const t = useTranslations('common.localeSwitcher');
   const pathname = usePathname() || '/';
   const router = useRouter();
+
   // 2) Etat local du switch (checked = 'en'):
   const [isChecked, setIsChecked] = useState(currentLocale === 'en');
   const [isPending, startTransition] = useTransition();
@@ -76,6 +77,8 @@ export default function LocaleSwitcher({
         role="switch"
         aria-checked={isChecked}
         aria-label={accessibleName}
+        aria-busy={isPending || undefined} // annonce un état occupé
+        disabled={isPending} // évite les doubles clics pendant la transition
         onClick={toggleLocale}
         onKeyDown={onKeyDown}
       >
