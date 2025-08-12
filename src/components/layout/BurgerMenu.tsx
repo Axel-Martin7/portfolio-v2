@@ -67,19 +67,72 @@ export default function BurgerMenu() {
         aria-label={panelLabel}
       >
         <div className={styles.mobileNavContent}>
-          {NavItemConfig.map(({ href, translationKey }) => (
-            <Button
-              key={translationKey}
-              className={styles.button}
-              as="link"
-              href={href}
-              variant="nav"
-              onClick={() => setIsOpen(false)}
-              ariaLabel={tNav(translationKey)}
-            >
-              {tNav(translationKey)}
-            </Button>
-          ))}
+          {/* Liens internes (colonne de boutons) */}
+          <div className={styles.navGroup}>
+            {NavItemConfig.map(({ href, translationKey }) => (
+              <Button
+                key={translationKey}
+                className={styles.button}
+                as="link"
+                href={href}
+                variant="nav"
+                onClick={() => setIsOpen(false)}
+                ariaLabel={tNav(translationKey)}
+              >
+                {tNav(translationKey)}
+              </Button>
+            ))}
+          </div>
+
+          {/* Réseaux sociaux */}
+          <div
+            className={styles.socialGroup}
+            role="group"
+            aria-label={tMenu('socials.ariaLabel')}
+          >
+            <ul className={styles.socialList}>
+              <li>
+                <a
+                  className={styles.socialLink}
+                  href="https://github.com/ton-compte"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={tMenu('socials.github')}
+                  title={tMenu('socials.github')}
+                ></a>
+              </li>
+              <li>
+                <a
+                  className={styles.socialLink}
+                  href="https://github.com/ton-compte"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={tMenu('socials.github')}
+                  title={tMenu('socials.github')}
+                ></a>
+              </li>
+              <li>
+                <a
+                  className={styles.socialLink}
+                  href="https://github.com/ton-compte"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={tMenu('socials.github')}
+                  title={tMenu('socials.github')}
+                ></a>
+              </li>
+              <li>
+                <a
+                  className={styles.socialLink}
+                  href="https://github.com/ton-compte"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={tMenu('socials.github')}
+                  title={tMenu('socials.github')}
+                ></a>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
     </>

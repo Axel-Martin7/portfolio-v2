@@ -143,17 +143,17 @@
     0 6px 8px #{vars.$color-coldgrey-9}, 0 -4px 4px #{vars.$color-coldgrey-9},
     0 -6px 4px #{vars.$color-coldgrey-8},
     inset 0 0 3px #{vars.$color-coldgrey-9};
-  --btn-shadow-hover: 0 4px 3px #{vars.$color-coldgrey-8},
+  --btn-shadow-hover: 0 4px 3px 1px #{vars.$color-coldgrey-8},
     0 6px 8px #{vars.$color-coldgrey-9}, 0 -4px 4px #{vars.$color-coldgrey-9},
     0 -6px 4px #{vars.$color-coldgrey-8},
     inset 0 0 3px 3px #{vars.$color-coldgrey-9};
-  --btn-shadow-active: 0 4px 3px #{vars.$color-coldgrey-8},
+  --btn-shadow-active: 0 4px 3px 1px #{vars.$color-coldgrey-8},
     0 6px 8px #{vars.$color-coldgrey-9}, 0 -4px 4px #{vars.$color-coldgrey-9},
     0 -6px 4px #{vars.$color-coldgrey-8},
     inset 0 0 5px 3px #{vars.$color-coldgrey-11},
     inset 0 0 30px #{vars.$color-coldgrey-11};
   /*------------------ Mobile Large ------------------*/
   @media screen and (min-width: 498px) {
-    width: 250px;
+    width: 50%;
   }
 }
