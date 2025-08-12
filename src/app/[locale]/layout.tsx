@@ -7,7 +7,11 @@
  */
 
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import type { ReactNode } from 'react';
@@ -113,15 +117,18 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  // 3) Configurer next-intl pour cette locale
+  // 3) On informe next-intl de la locale active:
   setRequestLocale(locale);
 
+  // 4) On passe explicitement les messages au provider (client components):
+  const messages = await getMessages();
+
   return (
-    // 4) Rend le provider i18n, l'en-tête et le contenu enfant
+    // 5) Rend le provider i18n, l'en-tête et le contenu enfant
     <html lang={locale} className={montserrat.className}>
       <head />
       <body>
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
           {/* HTML/body are handled by RootLayout */}
           <Header locale={locale} />
           {children}

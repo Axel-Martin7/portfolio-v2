@@ -32,7 +32,6 @@ export default async function Header({ locale }: { locale: string }) {
               width={48}
               height={48}
               sizes="(min-width: 768px) 48px, 32px" // ✅ sert le bon fichier selon le breakpoint
-              priority
             />
           </Link>
         </div>
