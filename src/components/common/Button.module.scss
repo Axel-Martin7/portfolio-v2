@@ -8,7 +8,17 @@
 /*-------------------------------------------------*/
 .button {
   /* Tokens par défaut (serviront de fallback si pas de variante) */
-  --btn-fg: #{vars.$color-coldgrey-1};
+  --btn-text: #{vars.$color-coldgrey-4};
+  --btn-border: #{vars.$color-coldgrey-12};
+  --btn-bg: #{vars.$color-coldgrey-10};
+  --btn-bg-hover: var(--btn-bg); // par défaut, identique
+  --btn-bg-active: var(--btn-bg);
+  --btn-shadow: 0 4px 3px 1px #{vars.$color-coldgrey-8},
+    0 6px 8px #{vars.$color-coldgrey-9}, 0 -4px 4px #{vars.$color-coldgrey-9},
+    0 -6px 4px #{vars.$color-coldgrey-8},
+    inset 0 0 3px #{vars.$color-coldgrey-9};
+  --btn-shadow-hover: var(--btn-shadow);
+  --btn-shadow-active: var(--btn-shadow);
 
   // Structure commune:
   position: relative;
@@ -16,21 +26,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: vars.$color-coldgrey-4;
+  color: var(--btn-text);
   font-weight: 500;
   text-shadow: 0px -1px 1px vars.$color-coldgrey-12;
   white-space: nowrap;
-  border: 1px solid vars.$color-coldgrey-12;
+  border: 1px solid var(--btn-border);
   border-radius: 32px;
-  background: linear-gradient(
-    to top,
-    vars.$color-coldgrey-9 0%,
-    vars.$color-coldgrey-7 80%,
-    vars.$color-coldgrey-8 100%
-  );
-  box-shadow: 0 4px 3px vars.$color-coldgrey-8, 0 6px 8px vars.$color-coldgrey-9,
-    0 -4px 4px vars.$color-coldgrey-9, 0 -6px 4px vars.$color-coldgrey-8,
-    inset 0 0 3px vars.$color-coldgrey-9;
+  background: var(--btn-bg);
+  box-shadow: var(--btn-shadow);
   cursor: pointer;
   user-select: none;
 
@@ -53,25 +56,14 @@
   @media (hover: hover) {
     &:hover {
       color: vars.$color-coldgrey-2;
-      box-shadow: 0 4px 3px vars.$color-coldgrey-8,
-        0 6px 8px vars.$color-coldgrey-9, 0 -4px 4px vars.$color-coldgrey-9,
-        0 -6px 4px vars.$color-coldgrey-8,
-        inset 0 0 3px 3px vars.$color-coldgrey-9;
+      background: var(--btn-bg-hover);
+      box-shadow: var(--btn-shadow-hover);
     }
   }
   /* Actif : léger enfoncement (feedback tactile) */
   &:active {
-    background: linear-gradient(
-      to top,
-      vars.$color-coldgrey-10 0%,
-      vars.$color-coldgrey-8 80%,
-      vars.$color-coldgrey-9 100%
-    );
-    box-shadow: 0 4px 3px vars.$color-coldgrey-8,
-      0 6px 8px vars.$color-coldgrey-9, 0 -4px 4px vars.$color-coldgrey-9,
-      0 -6px 4px vars.$color-coldgrey-8,
-      inset 0 0 5px 3px vars.$color-coldgrey-11,
-      inset 0 0 30px vars.$color-coldgrey-11;
+    background: var(--btn-bg-active);
+    box-shadow: var(--btn-shadow-active);
   }
   /* Focus clavier visible (a11y) */
   &:focus-visible {
@@ -89,9 +81,7 @@
   }
 }
 
-/*-------------------------------------------------* 
-//* Sizes 
-/*-------------------------------------------------*/
+//*-------------------- Sizes:
 .s_sm {
 }
 .s_md {
@@ -102,17 +92,39 @@
 }
 .s_xl {
 }
-
 .fullWidth {
 }
 
-/*-------------------------------------------------* 
-//* Variant: NAV (panneau BurgerMenu)
- - Full width en petit mobile
- - Largeur fixe après 498px (par défaut 250px pour respecter ton essai)
- - Dégradé "to top" + pile d'ombres + hover/active
- - Gradient text au hover (sur .content)
- /*-------------------------------------------------*/
+//*-------------------- Variant: NAV (panneau BurgerMenu):
 .v_nav {
-  width: 250px;
+  width: 100%;
+  --btn-bg: linear-gradient(
+    to top,
+    #{vars.$color-coldgrey-9} 0%,
+    #{vars.$color-coldgrey-7} 80%,
+    #{vars.$color-coldgrey-8} 100%
+  );
+  --btn-bg-active: linear-gradient(
+    to top,
+    #{vars.$color-coldgrey-10} 0%,
+    #{vars.$color-coldgrey-8} 80%,
+    #{vars.$color-coldgrey-9} 100%
+  );
+  --btn-shadow: 0 4px 3px 1px #{vars.$color-coldgrey-8},
+    0 6px 8px #{vars.$color-coldgrey-9}, 0 -4px 4px #{vars.$color-coldgrey-9},
+    0 -6px 4px #{vars.$color-coldgrey-8},
+    inset 0 0 3px #{vars.$color-coldgrey-9};
+  --btn-shadow-hover: 0 4px 3px #{vars.$color-coldgrey-8},
+    0 6px 8px #{vars.$color-coldgrey-9}, 0 -4px 4px #{vars.$color-coldgrey-9},
+    0 -6px 4px #{vars.$color-coldgrey-8},
+    inset 0 0 3px 3px #{vars.$color-coldgrey-9};
+  --btn-shadow-active: 0 4px 3px #{vars.$color-coldgrey-8},
+    0 6px 8px #{vars.$color-coldgrey-9}, 0 -4px 4px #{vars.$color-coldgrey-9},
+    0 -6px 4px #{vars.$color-coldgrey-8},
+    inset 0 0 5px 3px #{vars.$color-coldgrey-11},
+    inset 0 0 30px #{vars.$color-coldgrey-11};
+  /*------------------ Mobile Large ------------------*/
+  @media screen and (min-width: 498px) {
+    width: 250px;
+  }
 }
