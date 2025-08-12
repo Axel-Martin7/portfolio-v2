@@ -74,7 +74,6 @@ export default function BurgerMenu() {
               as="link"
               href={href}
               variant="nav"
-              size="md"
               onClick={() => setIsOpen(false)}
               ariaLabel={tNav(translationKey)}
             >

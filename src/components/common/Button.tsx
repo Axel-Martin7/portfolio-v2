@@ -7,13 +7,11 @@ import type { UrlObject } from 'url';
 
 /* Composant <Button> polymorphe et accessible
 - Rend sémantiquement: <button> (action), <a> (lien externe), ou <Link> i18n (lien interne localisé)
-- Variants + sizes cohérents (CTA primaire/secondaire, ghost, nav)
 - SEO/Perf : <Link> de Next.js => navigation client + prefecth intelligent
 - Ally: type par défaut "button", gestion disables/loading, rel sécurisé
 */
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'nav';
-type Size = 'sm' | 'md' | 'lg' | 'xl';
+type Variant = 'header' | 'primary' | 'secondary' | 'ghost' | 'nav';
 
 /*-------------------------------------------------*
  //* Utils: 
@@ -31,7 +29,6 @@ function isExternalHref(href: string) {
  *-------------------------------------------------*/
 interface CommonProps {
   variant?: Variant;
-  size?: Size;
   fullWidth?: boolean;
   className?: string;
   loading?: boolean; // désactive + aria-busy
@@ -83,15 +80,13 @@ function isLinkProps(p: ButtonProps): p is ButtonAsLink {
  //* Construction des classes CSS à partir des props
  *-------------------------------------------------*/
 function classes({
-  variant = 'primary',
-  size = 'md',
+  variant = 'header',
   fullWidth,
   className,
-}: Pick<ButtonProps, 'variant' | 'size' | 'fullWidth' | 'className'>) {
+}: Pick<ButtonProps, 'variant' | 'fullWidth' | 'className'>) {
   return cx(
     styles.button,
     styles[`v_${variant}`],
-    styles[`s_${size}`],
     fullWidth && styles.fullWidth,
     className
   );
@@ -103,9 +98,8 @@ function classes({
  - pas de cast risqué: branches avec type guards
  *-------------------------------------------------*/
 export default function Button(props: ButtonProps) {
-  const { variant, size, fullWidth, className, loading, children, ariaLabel } =
-    props;
-  const cls = classes({ variant, size, fullWidth, className });
+  const { variant, fullWidth, className, loading, children, ariaLabel } = props;
+  const cls = classes({ variant, fullWidth, className });
 
   //-------------------- 1) Bouton d'action: <button>
   if (isButtonProps(props)) {
@@ -170,7 +164,7 @@ export default function Button(props: ButtonProps) {
         onClick={onClick}
         aria-label={ariaLabel}
       >
-        {children}
+        <span className={styles.content}>{children}</span>
       </I18nLink>
     );
   }

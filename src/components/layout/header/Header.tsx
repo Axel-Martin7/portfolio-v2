@@ -28,8 +28,8 @@ export default async function Header({ locale }: { locale: string }) {
             <Image
               src={logo}
               alt="Logo Archimedes"
-              width={32}
-              height={32}
+              width={48}
+              height={48}
               priority
             />
           </Link>
@@ -46,8 +46,7 @@ export default async function Header({ locale }: { locale: string }) {
             className={styles.ctaBtn}
             as="link"
             href="/"
-            variant="primary"
-            size="md"
+            variant="header"
             ariaLabel={t('ctaBtnArialabel')}
           >
             {t('ctaBtnLabel')}
