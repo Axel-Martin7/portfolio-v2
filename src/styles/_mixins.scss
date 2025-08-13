@@ -1,20 +1,5 @@
 @use './variables';
 
-// @use './variables' as vars;
-
-// // Exemple de mixin
-// @mixin center-content {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// // Si tu as des mixins qui utilisent $primary-color
-// @mixin card {
-//   padding: 1rem;
-//   background: vars.$primary-color;
-// }
-
 //*-------------------- a11y / interaction communs:
 /*
 - hoverable: hover uniquement si l'appareil supporte le survol
