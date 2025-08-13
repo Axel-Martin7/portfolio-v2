@@ -1,6 +1,6 @@
 @use './reset' as *; // importe toutes les règles de reset
-@use './variables' as *; // importe toutes les variables en top-level
-@use './mixins' as *; // importe toutes les mixins en top-level
+@use './variables' as vars;
+@use './mixins' as mixins;
 
 /*-------------------------------------------------*\
  * Skip link target offset (header fixe)
@@ -12,10 +12,10 @@
 }
 
 body {
-  background-color: $color-coldgrey-11;
+  background-color: vars.$color-coldgrey-11;
 }
 
-/* Bonus: respect de la préférence utilisateur */
+/* Respect de la préférence utilisateur (motion) */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
