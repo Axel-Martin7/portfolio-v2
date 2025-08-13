@@ -1,0 +1,96 @@
+/*-------------------------------------------------*\
+ //* makePageSeo : fabrique un generateMetadata concis et typé
+  - DRY : évite de dupliquer la logique canonical/alternates
+  - Typage robuste : on dérive le type de `href` depuis getPathname
+  - i18n aware : respecte `localePrefix` + `pathnames` (next-intl)
+  
+  Notes SEO :
+  - Le middleware next-intl envoie déjà un Link header hreflang
+    (souvent suffisant). Si vos outils exigent des <link rel="alternate">
+    DANS le head, passez htmlAlternates: true.
+\*-------------------------------------------------*/
+
+import { getPathname } from '@/i18n/navigation';
+import { routing } from '@/i18n/routing';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+
+/*-------------------------------------------------*
+// Types utilitaires
+/*-------------------------------------------------*/
+type PathHref = Parameters<typeof getPathname>[0]['href'];
+type ParamsObject = Record<string, unknown>;
+
+/*-------------------------------------------------*\
+ //* makePageSeo :
+  - href : PathHref ou resolver ({locale, params}) => PathHref
+  - options.htmlAlternates : si true, ajoute <link rel="alternate"> via metadata
+  - options.namespace : namespace i18n (par défaut "metadata")
+\*-------------------------------------------------*/
+export function makePageSeo(
+  href:
+    | PathHref
+    | ((args: { locale: string; params: ParamsObject }) => PathHref),
+  options?: { htmlAlternates?: boolean; namespace?: string }
+) {
+  const { htmlAlternates = false, namespace = 'metadata' } = options ?? {};
+
+  /*-------------------------------------------------*\
+  //* generateMetadata (retourné par la factory)
+   - params: { locale } + autres params
+   - calcule canonical via getPathname (respect localePrefix + pathnames)
+   - ajoute alternates.languages si demandé (sinon Link header du middleware)
+  \*-------------------------------------------------*/
+  return async function generateMetadata({
+    params,
+  }: {
+    params: Promise<{ locale: string } & ParamsObject>;
+  }): Promise<Metadata> {
+    const all = await params;
+    const { locale, ...restRaw } = all;
+    const rest = restRaw as ParamsObject;
+
+    const t = await getTranslations({ locale, namespace });
+
+    // Base absolue (sans slash final) pour construire canonical/OG
+    const baseUrl = (
+      process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
+    ).replace(/\/$/, '');
+
+    // 1) Résolution du href final
+    const resolvedHref: PathHref =
+      typeof href === 'function' ? href({ locale, params: rest }) : href;
+
+    // 2) Canonical exact (locale + slug localisé)
+    const canonicalPath = getPathname({ locale, href: resolvedHref });
+    const canonical = `${baseUrl}${canonicalPath}`;
+
+    // 3) (Optionnel) Alternates HTML (hreflang)
+    const languages = htmlAlternates
+      ? Object.fromEntries(
+          routing.locales.map((l) => [
+            l,
+            `${baseUrl}${getPathname({ locale: l, href: resolvedHref })}`,
+          ])
+        )
+      : undefined;
+
+    // 4) Métadonnées localisées + OG minimal cohérent
+    return {
+      title: t('ogTitle'),
+      description: t('ogDescription'),
+      alternates: {
+        canonical,
+        ...(languages ? { languages } : {}),
+      },
+      openGraph: {
+        url: canonical,
+        title: t('ogTitle'),
+        description: t('ogDescription'),
+        siteName: t('siteName'),
+        type: 'website',
+        locale,
+      },
+    };
+  };
+}
