@@ -1,11 +1,12 @@
-/*
- *  Locale layout : 
-- Valide la locale depuis l'URL (404 si invalide)
-- Configure next-intl pour la locale courante
-- Génère les métadonnées SEO (title, description, alternates, openGraph)
-- Fournit le contexte de traduction et rend l'en-tête + contenu de la page
- */
+/*-------------------------------------------------*\
+ //* Locale layout (Root) :
+  - unique root layout de l'app (rend <html> et <body>)
+  - i18n : setRequestLocale + NextIntlClientProvider
+  - SEO : metadata par locale (canonical/alternates, OG)
+  - Styles globaux importés ici
+\*--------------------------------------------------*/
 
+import '@/styles/globals.scss';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import {
   getMessages,
@@ -65,15 +66,13 @@ export async function generateMetadata({
     process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
   ).replace(/\/$/, '');
 
-  //---------------- 4) Détermine l'URL canonique:
-  // - pour la defaultLocale en mode 'as-needed', on n'ajoute PAS le préfixe
+  //---------------- 4) Canonical racine par locale (respecte 'as-needed):
   const canonicalUrl =
     locale === routing.defaultLocale && routing.localePrefix === 'as-needed'
       ? baseUrl
       : `${baseUrl}/${locale}`;
 
   //---------------- 5) Construit la map hreflang (languages) :
-  // - defaultLocale -> baseURL ; autres locales -> /locale
   const languages: Record<string, string> = Object.fromEntries(
     routing.locales.map((l) => [
       l,
@@ -82,7 +81,6 @@ export async function generateMetadata({
         : `${baseUrl}/${l}`,
     ])
   );
-
   // Ajout de x-default pour les moteurs:
   languages['x-default'] = baseUrl;
 
@@ -110,10 +108,13 @@ export async function generateMetadata({
   };
 }
 
-/*-------------------------------------------------*
-//*  LocaleLayout:
-* - Layout principal spécifique à la locale (Server Component)
-/*-------------------------------------------------*/
+/*-------------------------------------------------*\
+ //* Root Layout i18n :
+  - valide la locale
+  - setRequestLocale pour SSG/SSR
+  - NextIntlClientProvider avec messages
+  - rend l'en-tête + contenu
+\*--------------------------------------------------*/
 export default async function LocaleLayout({
   children,
   params,
