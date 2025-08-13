@@ -58,25 +58,55 @@ export default function BurgerMenu() {
     const panelEl = panelRef.current;
     if (!panelEl) return;
 
-    // Applique/retire l'attribut inert (bloque le focus quand fermé)
+    // Applique/retire l'attribut inert (bloque le focus hors panneau quand fermé)
     if (isOpen) {
       panelEl.removeAttribute('inert');
     } else {
       panelEl.setAttribute('inert', '');
     }
 
-    // Gestion du focus à l'ouverture/fermeture
-    if (isOpen) {
-      //Focus sur le premier élément focusable du panneau
-      const firstFocusable = panelEl.querySelector<HTMLElement>(
-        "a,button,[tabindex]:not([tabindex='-1'])"
+    // Helpers focusables dans le panneau
+    const getFocusables = () =>
+      Array.from(
+        panelEl.querySelectorAll<HTMLElement>(
+          "a,button,input,select,textarea,[tabindex]:not([tabindex='-1'])"
+        )
+      ).filter(
+        (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
       );
-      firstFocusable?.focus();
+
+    if (isOpen) {
+      // Focus initial :
+      const firstFocusable = getFocusables()[0] ?? panelEl;
+      firstFocusable.focus();
 
       // Fermeture par Escape:
       const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') setIsOpen(false);
+        if (e.key === 'Escape') {
+          setIsOpen(false);
+        }
+
+        // Focus trap Tab/Shift+Tab
+        if (e.key === 'Tab') {
+          const focusables = getFocusables();
+          if (focusables.length === 0) return;
+
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+
+          // Tab depuis le dernier -> revient au premier
+          if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+          // Shift+Tab depuis le premier -> revient au dernier
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        }
       };
+
       document.addEventListener('keydown', onKeyDown);
       return () => document.removeEventListener('keydown', onKeyDown);
     } else {
@@ -95,6 +125,8 @@ export default function BurgerMenu() {
         aria-label={buttonLabel}
         aria-expanded={isOpen}
         aria-controls={panelId} // on relie le bouton au panneau
+        aria-haspopup="menu" // indique un panneau de navigation
+        data-state={isOpen ? 'open' : 'closed'}
         type="button"
       >
         <div className={styles.burgerMenu}>
@@ -114,6 +146,8 @@ export default function BurgerMenu() {
         role="navigation"
         aria-hidden={!isOpen}
         aria-label={panelLabel}
+        tabIndex={-1} // permet de focus le conteneur si besoin
+        data-state={isOpen ? 'open' : 'closed'}
       >
         <div className={styles.mobileNavContent}>
           {/* Liens internes (colonne de boutons) */}
