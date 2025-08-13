@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import styles from './DesktopNavigation.module.scss';
 import { NavItemConfig } from '@/config/navigation';
-import NavItem from './NavItem';
+import ActiveLink from '@/components/common/ActivLink';
 
 interface DesktopNavigationProps {
   locale: string;
@@ -26,9 +26,14 @@ export default async function DesktopNavigation({
       <ul className={styles.navList}>
         {NavItemConfig.map(({ href, translationKey }) => (
           <li key={translationKey} className={styles.navItem}>
-            <NavItem href={href} className={styles.navLink} locale={locale}>
+            <ActiveLink
+              href={href}
+              className={styles.active} // optionnel si on as une classe dédiée
+              match="exact" // ou "startWith" pour un item parent
+              ariaLabel={t(translationKey)}
+            >
               {t(translationKey)}
-            </NavItem>
+            </ActiveLink>
           </li>
         ))}
       </ul>
