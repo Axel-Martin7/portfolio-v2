@@ -16,6 +16,11 @@ export const generateMetadata = makePageSeo('/about', {
   htmlAlternates: false, // Link header hreflang suffit dans la majorité des cas
 });
 
+/*-------------------------------------------------*\
+ //* About (Server Component)
+  - Première balise = <main id="main" tabIndex={-1}> pour le skip link
+  - setRequestLocale AVANT getTranslations pour activer le rendu statique i18n
+\*-------------------------------------------------*/
 export default async function About({ params }: AboutPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -24,5 +29,9 @@ export default async function About({ params }: AboutPageProps) {
     namespace: 'pages.about',
   });
 
-  return <div className={styles.about}>{t('title')}</div>;
+  return (
+    <main id="main" tabIndex={-1} className={styles.main}>
+      <div className={styles.about}>{t('title')}</div>
+    </main>
+  );
 }
