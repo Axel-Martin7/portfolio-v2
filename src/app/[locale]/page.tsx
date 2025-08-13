@@ -1,21 +1,14 @@
 // import { getTranslations } from 'next-intl/server';
 import styles from './page.module.scss';
 
-// Si besoin de traduction sur un serveur component :
-// interface HomePageProps {
-//   params: Promise<{ locale: string }>;
-// }
-
-// export default async function Home({ params }: HomePageProps) {
-//   const { locale } = await params;
-//   const t = await getTranslations({
-//     locale,
-//     namespace: 'page.home',
-//   });
-
+/*-------------------------------------------------*\
+ //* Home (Server Component)
+  - id="main" : cible du skip link du header
+  - tabIndex={-1} : permet de recevoir le focus quand on saute à l’ancre
+\*--------------------------------------------------*/
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <main id="main" tabIndex={-1} className={styles.main}>
       <div className={styles.heroSectionWrapper}>
         <div className={styles.heroSection}></div>
       </div>

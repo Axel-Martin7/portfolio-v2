@@ -22,7 +22,7 @@ export default async function Header({ locale }: { locale: string }) {
     <header className={styles.headerRibbon}>
       {/* Skip link (a11y): visible au focus clavier */}
       <a href="#main" className={styles.skipLink}>
-        {t('skipToCotent')}
+        {t('skipToContent')}
       </a>
 
       <div className={styles.header}>

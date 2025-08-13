@@ -2,6 +2,22 @@
 @use './variables' as *; // importe toutes les variables en top-level
 @use './mixins' as *; // importe toutes les mixins en top-level
 
+/*-------------------------------------------------*\
+ * Skip link target offset (header fixe)
+ * - L’élément ciblé par #main gardera une marge de scroll
+ * - Ajuste la valeur (80px) à la hauteur réelle de ton header
+\*--------------------------------------------------*/
+:where(main)#main {
+  scroll-margin-top: 80px;
+}
+
 body {
   background-color: $color-coldgrey-11;
+}
+
+/* Bonus: respect de la préférence utilisateur */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
