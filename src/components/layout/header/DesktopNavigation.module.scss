@@ -14,5 +14,20 @@
     &:hover {
       color: vars.$color-coldgrey-2;
     }
+
+    &:focus-visible {
+      outline: 2px solid vars.$color-coldgrey-2;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+  }
+
+  /*-------------------------------------------------*\
+ //* État actif :
+  - via data-attribute (recommandé)
+\*--------------------------------------------------*/
+  /* 1) data-attribute posé par ActiveLink */
+  .navLink[data-active='true'] {
+    color: vars.$color-coldgrey-2;
   }
 }
