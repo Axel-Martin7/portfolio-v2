@@ -12,6 +12,21 @@
     margin: 0 auto;
   }
 
+  /* Caché par defaut, visible au focus */
+  .skipLink {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    &:focus {
+      left: 12px;
+      top: 12px;
+    }
+  }
+
   .header {
     height: 80px;
     padding: 0 24px;

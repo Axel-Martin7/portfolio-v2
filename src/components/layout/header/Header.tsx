@@ -10,14 +10,21 @@ import { getTranslations } from 'next-intl/server';
 
 /*-------------------------------------------------*
 //* Header :
-- Logo, BurgerMenu, DesktopNavigation, CTA button et localeSwitcher
-- Gère l'affichage via media queries dans fichier de style
+- Landmark <header> (banner)
+  - Skip link pour accès clavier direct au contenu principal
+  - Logo (Image optimisée Next) + alt/aria localisés
+  - Navigation SSR + CTA + Locale Switcher
 *--------------------------------------------------*/
 export default async function Header({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'common.header' });
 
   return (
     <header className={styles.headerRibbon}>
+      {/* Skip link (a11y): visible au focus clavier */}
+      <a href="#main" className={styles.skipLink}>
+        {t('skipToCotent')}
+      </a>
+
       <div className={styles.header}>
         <div className={styles.logoContainer}>
           <Link
@@ -28,7 +35,7 @@ export default async function Header({ locale }: { locale: string }) {
             <Image
               className={styles.logo}
               src={logo}
-              alt="Logo Archimedes"
+              alt={t('logoAlt')}
               width={48}
               height={48}
               sizes="(min-width: 768px) 48px, 32px" // ✅ sert le bon fichier selon le breakpoint
