@@ -8,13 +8,10 @@
 
 import '@/styles/globals.scss';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import {
-  getMessages,
-  getTranslations,
-  setRequestLocale,
-} from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import type { ReactNode } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Montserrat } from 'next/font/google';
 import Header from '@/components/layout/header/Header';
@@ -25,9 +22,8 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
-//*---------------- Types des props de notre layout enfant :
 interface LocaleLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   params: Promise<{ locale: string }>;
 }
 
@@ -48,9 +44,10 @@ export const viewport: Viewport = {
 };
 
 /*-------------------------------------------------*
-//*  generateMetadata:
-* - Génération des Metadata pour chaque locale via App Router
-/*-------------------------------------------------*/
+//* generateMetadata : metadonnées globales par locale
+- On définit metadataBase + titres/desc par défaut + OG de base
+- Les canoniques/alternates précis se font PAR PAGE (makePageSeo)
+*--------------------------------------------------*/
 export async function generateMetadata({
   params,
 }: {
@@ -61,45 +58,21 @@ export async function generateMetadata({
   //---------------- 2) Charge les traductions du namespae "metadata" :
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
-  //---------------- 3) Base URL (sans slash final) :
+  //---------------- 3) Base absolue pour URLs (utilisée par Next pour résoudre 'alternate', OG, etc.)
   const baseUrl = (
     process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
   ).replace(/\/$/, '');
-
-  //---------------- 4) Canonical racine par locale (respecte 'as-needed):
-  const canonicalUrl =
-    locale === routing.defaultLocale && routing.localePrefix === 'as-needed'
-      ? baseUrl
-      : `${baseUrl}/${locale}`;
-
-  //---------------- 5) Construit la map hreflang (languages) :
-  const languages: Record<string, string> = Object.fromEntries(
-    routing.locales.map((l) => [
-      l,
-      l === routing.defaultLocale && routing.localePrefix === 'as-needed'
-        ? baseUrl
-        : `${baseUrl}/${l}`,
-    ])
-  );
-  // Ajout de x-default pour les moteurs:
-  languages['x-default'] = baseUrl;
 
   return {
     metadataBase: new URL(baseUrl),
     // Titres et descriptions traduits
     title: t('defaultTitle'),
     description: t('defaultDescription'),
-    // Balises <link rel="canonical"> et <link rel="alternate hreflang">
-    alternates: {
-      canonical: canonicalUrl,
-      languages,
-    },
-
     // Configuration Open Graph de base :
     openGraph: {
       title: t('ogTitle'),
       description: t('ogDescription'),
-      url: canonicalUrl,
+      url: baseUrl,
       siteName: t('siteName'),
       type: 'website',
       locale,
@@ -112,7 +85,7 @@ export async function generateMetadata({
  //* Root Layout i18n :
   - valide la locale
   - setRequestLocale pour SSG/SSR
-  - NextIntlClientProvider avec messages
+  - NextIntlClientProvider
   - rend l'en-tête + contenu
 \*--------------------------------------------------*/
 export default async function LocaleLayout({
@@ -130,15 +103,11 @@ export default async function LocaleLayout({
   // 3) On informe next-intl de la locale active:
   setRequestLocale(locale);
 
-  // 4) On passe explicitement les messages au provider (client components):
-  const messages = await getMessages();
-
   return (
     // 5) Rend le provider i18n, l'en-tête et le contenu enfant
     <html lang={locale} className={montserrat.className}>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          {/* HTML/body are handled by RootLayout */}
+        <NextIntlClientProvider>
           <Header locale={locale} />
           {children}
         </NextIntlClientProvider>

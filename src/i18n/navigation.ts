@@ -1,6 +1,5 @@
 /**
- * Objectif : Exposer <Link>, useRouter, etc. adaptés à l'i18n,
- * et un type "Href" unique pour tous les href internes.
+ * Objectif : Fournir des wrappers (<Link>, userouter ...) configurés pour gérer automatiquement les préfixes de locale.
  */
 
 import { createNavigation } from 'next-intl/navigation';

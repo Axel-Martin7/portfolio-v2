@@ -17,14 +17,25 @@ import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   //*-------------------- 1) Base absolue (utilisée dans <loc> et alternates):
+
   const base = (
     process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
   ).replace(/\/$/, '');
 
   //*-------------------- 2) Routes "stables" du site (href invariants):
+  /*
+   - On part des hrefs "source de vérité" (Compatible avec next-intl)
+   - getPathname() génère l'URL localisée correcte (respecte pathnames + localePrefix)
+  */
   const hrefs = ['/', '/about', '/link3', '/link4'] as const;
 
   //*-------------------- 3) Génération des entrées (canonique + alternates):
+  /*
+   - url : canonical par defaut (ici = deaultLocale)
+   - alternates.languages : toutes les langues => <xhtml:link hreflang=".." />
+   - lastModified : date actuelle (remplace-la par ta vraie date de MAJ si dispo)
+   - changeFrequency/priority : indicatifs (ok de les omettre)
+  */
   const now = new Date();
 
   return hrefs.map((href) => {

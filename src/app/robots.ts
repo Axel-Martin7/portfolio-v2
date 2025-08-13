@@ -19,14 +19,20 @@ export default function robots(): MetadataRoute.Robots {
   ).replace(/\/$/, '');
 
   //*-------------------- 2) Règles du crawl:
-  // - En prod : on autorise tout
-  // - En preview/staging (optionnel) : interdire l'indexation
+  /*
+   - En prod : on autorise tout
+   - En preview/staging (optionnel) : interdire l'indexation
+  */
   const isProd = process.env.NODE_ENV === 'production';
   const defaultRules = isProd
     ? { userAgent: '*', allow: '/' }
     : { userAgent: '*', disallow: '/' };
 
   //*-------------------- 3) Retour "Robots object" -> Next.js sort un robots.txt valide:
+  /* 
+  - "rules" accepte un objet OU un tableau (pour cibler des bots spécifiques)
+  - "sitemap" accepte une string OU un tableau (si sitemaps multiple)
+  */
   return {
     rules: defaultRules,
     sitemap: `${base}/sitemap.xml`,
