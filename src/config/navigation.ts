@@ -15,6 +15,6 @@ export interface NavItemConfig {
 export const NavItemConfig: NavItemConfig[] = [
   { href: '/', translationKey: 'home' },
   { href: '/about', translationKey: 'about' },
-  { href: '/lien3', translationKey: 'lien3' },
-  { href: '/lien4', translationKey: 'lien4' },
+  { href: '/link3', translationKey: 'lien3' },
+  { href: '/link4', translationKey: 'lien4' },
 ];
