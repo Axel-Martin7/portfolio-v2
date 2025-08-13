@@ -21,7 +21,6 @@ import Header from '@/components/layout/header/Header';
 //*---------------- Chargement de la police d'écriture :
 const montserrat = Montserrat({
   subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], //! SUPPRIMER LES WEIGHTS NON UTILISER
   display: 'swap',
 });
 
