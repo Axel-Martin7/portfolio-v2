@@ -14,3 +14,26 @@
 //   padding: 1rem;
 //   background: vars.$primary-color;
 // }
+
+//*-------------------- a11y / interaction communs:
+/*
+- hoverable: hover uniquement si l'appareil supporte le survol
+- disabled : styles disabled pour <button> et <a[aria-disabled]>
+*/
+@mixin hoverable {
+  /* Hover suelement si l'appareil supporte le survol */
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin disabled {
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    /* on NE met pas pointer-events:none pour garder le focus clavier */
+  }
+}

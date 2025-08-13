@@ -21,3 +21,14 @@ body {
     scroll-behavior: smooth;
   }
 }
+
+/*-------------------------------------------------*\
+ //* Focus visible unifié pour les éléments interactifs
+  (tu peux l'ajuster / désactiver localement si besoin)
+\*-------------------------------------------------*/
+:where(a, button, [role='button'], input, select, textarea, summary) {
+  &:focus-visible {
+    outline: 2px solid vars.$color-coldgrey-2;
+    outline-offset: 2px;
+  }
+}

@@ -52,8 +52,7 @@
     justify-content: center;
   }
 
-  /* Effets "motion-safe" : animés seulement si l’utilisateur n’a PAS demandé
-     de réduire les animations dans son OS (accessibilité + perf) */
+  /* Motion-safe transitions */
   @media (prefers-reduced-motion: no-preference) {
     transition: background-color 0.2s ease, color 0.2s ease,
       border-color 0.2s ease, box-shadow 0.2s ease, transform 0.06s ease;
@@ -61,34 +60,31 @@
       transition: transform 0.2s ease;
     }
   }
-  /* Hover seulement si l’appareil supporte le survol (desktop).
-     Évite les états collants sur mobile (UX) */
-  @media (hover: hover) {
-    &:hover {
-      color: var(--btn-text-hover);
-      background: var(--btn-bg-hover);
-      box-shadow: var(--btn-shadow-hover);
-    }
+  /* Hover seulement si l’appareil supporte le survol (desktop)) */
+  @include mixins.hoverable {
+    color: var(--btn-text-hover);
+    background: var(--btn-bg-hover);
+    box-shadow: var(--btn-shadow-hover);
   }
+
   /* Actif : léger enfoncement (feedback tactile) */
   &:active {
     background: var(--btn-bg-active);
     box-shadow: var(--btn-shadow-active);
   }
-  /* Focus clavier visible (a11y) */
-  &:focus-visible {
-    outline: 2px solid vars.$color-coldgrey-2;
-    outline-offset: 2px;
+
+  /* Busy (ex: aria-busy="true") */
+  &[aria-busy='true'] {
+    cursor: progress;
   }
-  /* États désactivés (boutons & liens)
-     - :disabled => vrai <button disabled>
-     - [aria-disabled="true"] => <a> “désactivé” annoncé aux lecteurs d’écran
-     - On NE met PAS pointer-events:none pour conserver le focus clavier */
-  &:disabled,
-  &[aria-disabled='true'] {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+
+  /* Disabled (garde le focus clavier) */
+  @include mixins.disabled;
+}
+
+/* Largeur fluide déclenchée par la prop fullWidth */
+.fullWidth {
+  width: 100%;
 }
 
 //*-------------------- Variant: HEADER (CTA du Header):
