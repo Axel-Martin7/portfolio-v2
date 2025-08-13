@@ -2,9 +2,10 @@
 
 import React, { useEffect, useId, useRef, useState } from 'react';
 import styles from './BurgerMenu.module.scss';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { NavItemConfig } from '@/config/navigation';
 import Button from '../common/Button';
+import { getPathname } from '@/i18n/navigation';
 
 /*-------------------------------------------------*
 //* BurgerMenu :
@@ -12,10 +13,12 @@ import Button from '../common/Button';
 - Conserve la nav mobile dans le DOM (SEO-friendly)
 - Bloque le scroll du body lorsque le menu est ouvert
 - Ferme automatiquement le panneau au clic sur un lien
+- i18n-safe : calcule l'URL localisée avant de la passer au <Button>
 *--------------------------------------------------*/
 export default function BurgerMenu() {
   const tMenu = useTranslations('common.burgerMenu');
   const tNav = useTranslations('common.navigation');
+  const currentLocale = useLocale(); // locale active
   const [isOpen, setIsOpen] = useState(false);
 
   // ID unique pour relier le bouton et le panneau (aria-controls)
@@ -115,19 +118,26 @@ export default function BurgerMenu() {
         <div className={styles.mobileNavContent}>
           {/* Liens internes (colonne de boutons) */}
           <div className={styles.navGroup}>
-            {NavItemConfig.map(({ href, translationKey }) => (
-              <Button
-                key={translationKey}
-                className={styles.button}
-                as="link"
-                href={href}
-                variant="nav"
-                onClick={() => setIsOpen(false)}
-                ariaLabel={tNav(translationKey)}
-              >
-                {tNav(translationKey)}
-              </Button>
-            ))}
+            {NavItemConfig.map(({ href, translationKey }) => {
+              // ✅ calcule la cible localisée pour la locale courante
+              const localizedHref = getPathname({
+                href,
+                locale: currentLocale,
+              });
+              return (
+                <Button
+                  key={translationKey}
+                  className={styles.button}
+                  as="link"
+                  href={localizedHref} // string localisé pour le <Button>
+                  variant="nav"
+                  onClick={() => setIsOpen(false)}
+                  ariaLabel={tNav(translationKey)}
+                >
+                  {tNav(translationKey)}
+                </Button>
+              );
+            })}
           </div>
 
           {/* Réseaux sociaux */}
