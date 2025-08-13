@@ -5,7 +5,6 @@ import styles from './BurgerMenu.module.scss';
 import { useLocale, useTranslations } from 'next-intl';
 import { NavItemConfig } from '@/config/navigation';
 import Button from '../common/Button';
-import { getPathname } from '@/i18n/navigation';
 
 /*-------------------------------------------------*
 //* BurgerMenu :
@@ -153,17 +152,13 @@ export default function BurgerMenu() {
           {/* Liens internes (colonne de boutons) */}
           <div className={styles.navGroup}>
             {NavItemConfig.map(({ href, translationKey }) => {
-              // ✅ calcule la cible localisée pour la locale courante
-              const localizedHref = getPathname({
-                href,
-                locale: currentLocale,
-              });
               return (
                 <Button
                   key={translationKey}
                   className={styles.button}
                   as="link"
-                  href={localizedHref} // string localisé pour le <Button>
+                  href={href}
+                  locale={currentLocale}
                   variant="nav"
                   onClick={() => setIsOpen(false)}
                   ariaLabel={tNav(translationKey)}

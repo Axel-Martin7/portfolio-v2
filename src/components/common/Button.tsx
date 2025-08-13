@@ -1,14 +1,14 @@
 'use client';
 
-import React from 'react';
+import type React from 'react';
 import styles from './Button.module.scss';
 import { Link as I18nLink } from '@/i18n/navigation';
-import type { UrlObject } from 'url';
+import type { Href } from '@/i18n/navigation';
 
 /* Composant <Button> polymorphe et accessible
 - Rend sémantiquement: <button> (action), <a> (lien externe), ou <Link> i18n (lien interne localisé)
-- SEO/Perf : <Link> de Next.js => navigation client + prefecth intelligent
-- Ally: type par défaut "button", gestion disables/loading, rel sécurisé
+- SEO/Perf : <Link> de Next.js => navigation client + prefetch intelligent
+- a11y: type par défaut "button", gestion disabled/loading, rel sécurisé
 */
 
 type Variant = 'header' | 'primary' | 'secondary' | 'ghost' | 'nav';
@@ -19,9 +19,6 @@ type Variant = 'header' | 'primary' | 'secondary' | 'ghost' | 'nav';
  *-------------------------------------------------*/
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(' ');
-}
-function isExternalHref(href: string) {
-  return /^(https?:)?\/\//.test(href) || /^mailto:|^tel:/.test(href);
 }
 
 /*-------------------------------------------------*
@@ -53,8 +50,8 @@ type ButtonAsAnchor = CommonProps &
 
 type ButtonAsLink = CommonProps & {
   as: 'link';
-  href: string | UrlObject; // ex: '/about' => '/fr/about' ou '/en/about'
-  prefetch?: true | false | null; // laisser nul => comportement Next.js par défaut
+  href: Href;
+  prefetch?: boolean;
   locale?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   replace?: boolean;
@@ -138,28 +135,18 @@ export default function Button(props: ButtonProps) {
     );
   }
 
-  //-------------------- 3) Lien interne localisé: <Link> de next-intl/navigation
-
+  //-------------------- 3) <Link> i18n (interne, invariant)
   if (isLinkProps(props)) {
-    const { href, prefetch = null, locale, onClick, replace, scroll } = props;
+    const { href, prefetch, locale, onClick, replace, scroll } = props;
 
-    // Sécurité: si href est absolu par erreur => fallback <a>
-    if (typeof href === 'string' && isExternalHref(href)) {
-      return (
-        <a className={cls} href={href} aria-label={ariaLabel}>
-          <span className={styles.content}>{children}</span>
-        </a>
-      );
-    }
-
-    // On passe uniquement les props acceptées par <Link> pour éviter les conflits de types
+    // Ici 'href' est garanti interne & invariant (type Href), On transmet seulement les props définies
     return (
       <I18nLink
         href={href}
-        prefetch={prefetch}
-        locale={locale}
-        replace={replace}
-        scroll={scroll}
+        {...(prefetch !== undefined ? { prefetch } : {})}
+        {...(locale ? { locale } : {})}
+        {...(replace !== undefined ? { replace } : {})}
+        {...(scroll !== undefined ? { scroll } : {})}
         className={cls}
         onClick={onClick}
         aria-label={ariaLabel}
