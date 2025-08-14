@@ -43,10 +43,14 @@
 
   "pages": {
     "home": {
-      "title": "Bienvenue sur mon portfolio"
+      "title": "Bienvenue sur mon portfolio",
+      "ogTitle": "Portfolio — Projets & Expertise",
+      "ogDescription": "Découvrez mes réalisations, mes compétences et mes services."
     },
     "about": {
-      "title": "À propos"
+      "title": "À propos",
+      "ogTitle": "À propos — Portfolio",
+      "ogDescription": "En savoir plus sur mon parcours, ma méthode et mes valeurs."
     }
   }
 }
