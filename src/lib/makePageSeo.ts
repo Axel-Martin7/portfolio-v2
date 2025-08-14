@@ -1,15 +1,14 @@
 /*-------------------------------------------------*\
  //* makePageSeo : fabrique un generateMetadata concis et typé
-  - DRY : évite de dupliquer la logique canonical/alternates
+  - DRY : factorise canonical/alternates (hreflang)
   - Typage robuste : on dérive le type de `href` depuis getPathname
   - i18n aware : respecte `localePrefix` + `pathnames`
-  
-  SEO Notes :
- * - Le middleware next-intl envoie déjà un "Link" header hreflang.
- *   => Dans la majorité des cas, ça suffit (plus léger côté HTML).
- * - Si votre outillage SEO exige des <link rel="alternate"> DANS le head
- *   (ou si votre plateforme supprime les headers), activez htmlAlternates: true.
- *   (Par défaut: htmlAlternates = false)
+
+  SEO notes :
+  - Le middleware next-intl envoie déjà un "Link" header hreflang.
+    => Dans la majorité des cas, ça suffit (plus léger côté HTML).
+  - Si vos outils SEO exigent des <link rel="alternate"> dans le <head>,
+    passez { htmlAlternates: true }.
 \*-------------------------------------------------*/
 
 import { Metadata } from 'next';
@@ -25,9 +24,12 @@ type ParamsObject = Record<string, unknown>;
 
 /*-------------------------------------------------*\
  //* makePageSeo :
-  - href : PathHref ou resolver ({locale, params}) => PathHref
-  - options.htmlAlternates : si true, ajoute <link rel="alternate"> via metadata
-  - options.namespace : namespace i18n (par défaut "metadata")
+  - href : PathHref OU resolver ({ locale, params }) => PathHref
+  - options.htmlAlternates : si true, ajoute <link rel="alternate"> dans le head
+    (sinon, on s'appuie sur le Link header hreflang du middleware)
+  - options.namespace : namespace i18n de la page
+    (par défaut "metadata" — utile si vous avez une page très simple)
+  - ✅ siteName : toujours lu dans le namespace global "metadata" (pas de duplication)
 \*-------------------------------------------------*/
 export function makePageSeo(
   href:
@@ -39,9 +41,9 @@ export function makePageSeo(
 
   /*-------------------------------------------------*\
   //* generateMetadata (retourné par la factory)
-   - params: { locale } + autres params
-   - calcule canonical via getPathname (respect localePrefix + pathnames)
-   - ajoute alternates.languages si demandé (sinon Link header du middleware)
+    - params: { locale } + autres params
+    - calcule le canonical via getPathname (locale + pathname OK)
+    - ajoute alternates.languages si demandé (sinon le middleware suffit)
   \*-------------------------------------------------*/
   return async function generateMetadata({
     params,
@@ -52,7 +54,10 @@ export function makePageSeo(
     const { locale, ...restRaw } = all;
     const rest = restRaw as ParamsObject;
 
+    // i18n : textes spécifiques à la page + textes globaux (siteName)
     const t = await getTranslations({ locale, namespace });
+    const tMeta = await getTranslations({ locale, namespace: 'metadata' });
+
     // Base absolue (sans slash final) pour construire canonical/OG
     const baseUrl = (
       process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
@@ -90,7 +95,7 @@ export function makePageSeo(
         url: canonical,
         title: t('ogTitle'),
         description: t('ogDescription'),
-        siteName: t('siteName'),
+        siteName: tMeta('siteName'), // lu dans "metadata" (global)
         type: 'website',
         locale,
       },
@@ -98,14 +103,16 @@ export function makePageSeo(
   };
 }
 
-/* 
-Comment l'utiliser :
-  Page statique :
-  export const generateMetadata = makePageSeo('/about');
- 
-  Page dynamique (ex: /blog/[slug]) :
-  export const generateMetadata = makePageSeo(({ params }) => ({
-    pathname: '/blog/[slug]',
-    params: { slug: String(params.slug) }
-  }));
-  */
+/*-------------------------------------------------*\
+ * Exemples d'utilisation :
+ * 1) Page statique :
+ *    export const generateMetadata = makePageSeo('/about', {
+ *      namespace: 'pages.about'
+ *    });
+ *
+ * 2) Page dynamique (ex: /blog/[slug]) :
+ *    export const generateMetadata = makePageSeo(({ params }) => ({
+ *      pathname: '/blog/[slug]',
+ *      params: { slug: String(params.slug) }
+ *    }), { namespace: 'pages.blog' });
+\*-------------------------------------------------*/

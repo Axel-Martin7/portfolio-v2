@@ -7,7 +7,7 @@
 */
 @mixin hoverable {
   /* Hover suelement si l'appareil supporte le survol */
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     &:hover {
       @content;
     }

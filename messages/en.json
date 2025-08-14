@@ -1,59 +1,52 @@
 {
   "metadata": {
-    "defaultTitle": "Mon Portfolio V2",
-    "defaultDescription": "Un portfolio multilingue construit avec Next.js App Router",
-    "ogTitle": "Découvrez Mon Portfolio",
-    "ogDescription": "Portfolio personnel construit avec Next.js",
-    "siteName": "Mon Portfolio"
+    "defaultTitle": "Portfolio — Your Name",
+    "defaultDescription": "Multilingual portfolio (Next.js + next-intl): projects, experience, and contact.",
+    "ogTitle": "Portfolio — Work & Expertise",
+    "ogDescription": "Explore my projects, skills, and services.",
+    "siteName": "Portfolio"
   },
 
   "common": {
     "header": {
-      "logoAriaLabel": "Logo Axel Martin",
-      "ctaBtnLabel": "Rencontrons-nous",
-      "ctaBtnArialabel": "cta ariaLabel"
-    },
-    "burgerMenu": {
-      "panelLabel": "Go to menu",
-      "openLabel": "Ouvrir le menu",
-      "closeLabel": "Fermer le menu",
-      "about": "About",
-      "navLink2": "Lien 2",
-      "navLink3": "Lien 3",
-      "socials": {
-        "ariaLabel": "Liens vers les réseaux sociaux",
-        "github": "Ouvrir GitHub",
-        "linkedin": "Ouvrir LinkedIn",
-        "x": "Ouvrir X (Twitter)",
-        "instagram": "Ouvrir Instagram"
-      }
+      "skipToContent": "Skip to main content",
+      "logoAriaLabel": "Back to home",
+      "logoAlt": "Portfolio logo",
+      "ctaBtnLabel": "Contact me",
+      "ctaBtnArialabel": "Go to contact page"
     },
 
     "navigation": {
-      "ariaLabel": "Navigation principale",
-      "home": "Accueil",
-      "about": "A propos",
-      "lien3": "lien3",
-      "lien4": "lien4"
+      "ariaLabel": "Main navigation",
+      "home": "Home",
+      "about": "About",
+      "lien3": "Projects",
+      "lien4": "Contact"
+    },
+
+    "burgerMenu": {
+      "panelLabel": "Main navigation",
+      "openLabel": "Open menu",
+      "closeLabel": "Close menu",
+      "socials": {
+        "ariaLabel": "Social links",
+        "github": "Open GitHub"
+      }
     },
 
     "localeSwitcher": {
-      "label": "Langue",
-      "english": "Anglais",
-      "french": "Français"
+      "label": "Language",
+      "english": "English",
+      "french": "French"
     }
   },
 
   "pages": {
     "home": {
-      "introduction": {
-        "main-title": "Bienvenue sur ARCHIMEDES",
-        "about": "A propos"
-      }
+      "title": "Welcome to my portfolio"
     },
-
     "about": {
-      "title": "Page about"
+      "title": "About"
     }
   }
 }
