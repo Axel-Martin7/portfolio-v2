@@ -15,6 +15,7 @@ import type { ReactNode } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Montserrat } from 'next/font/google';
 import Header from '@/components/layout/header/Header';
+import OrgJsonLd from '@/components/seo/OrgJsonLd';
 
 //*---------------- Chargement de la police d'écriture :
 const montserrat = Montserrat({
@@ -109,6 +110,7 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider>
           <Header locale={locale} />
+          <OrgJsonLd />
           {children}
         </NextIntlClientProvider>
       </body>
