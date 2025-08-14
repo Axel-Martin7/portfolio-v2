@@ -100,7 +100,7 @@ export default function LocaleSwitcher({
         <a
           href={
             currentLocale === 'en'
-              ? '/'
+              ? pathname // aller vers FR (defaultLocale, 'as-needed')
               : `/en${pathname === '/' ? '' : pathname}`
           }
         >
