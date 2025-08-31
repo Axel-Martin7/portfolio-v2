@@ -57,9 +57,12 @@ export default function ActiveLink({
   const current = normalize(pathname ?? '/');
   const target = normalize(localizedHref);
 
+  // Evite que '/' marque tout actif en mode "startsWith"
   const isActive =
     match === 'exact'
       ? current === target
+      : target === '/'
+      ? current === '/'
       : current === target || current.startsWith(`${target}`);
 
   // 4) Classe finale & attributs d'état :
